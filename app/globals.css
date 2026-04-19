@@ -3,25 +3,106 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d0d0d;
+  --foreground: #ffffff;
+  --card: #171717;
+  --panel: #1a1a1a;
+  --border: #2a2a2a;
+  --brand: #8b0000;
+  --gold: #c9a84c;
+  --muted: #9e9e9e;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  @apply border-border;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-manrope), sans-serif;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at top, rgba(139, 0, 0, 0.2), transparent 32%),
+    linear-gradient(180deg, rgba(201, 168, 76, 0.06), transparent 12%),
+    linear-gradient(180deg, #101010, #0d0d0d 24%);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .text-shimmer {
+    background-image: linear-gradient(
+      120deg,
+      rgba(201, 168, 76, 0.45) 15%,
+      #ffffff 35%,
+      rgba(201, 168, 76, 0.9) 50%,
+      #ffffff 70%,
+      rgba(201, 168, 76, 0.4) 85%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gold-ring {
+    box-shadow:
+      0 0 0 1px rgba(201, 168, 76, 0.18),
+      inset 0 0 0 1px rgba(201, 168, 76, 0.08);
+  }
+
+  .surface-card {
+    background:
+      linear-gradient(180deg, rgba(201, 168, 76, 0.08), rgba(201, 168, 76, 0) 24%),
+      #171717;
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-cormorant), serif;
+    letter-spacing: 0.02em;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  ::selection {
+    background: rgba(201, 168, 76, 0.3);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .container-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply font-display text-4xl tracking-[0.16em] text-white sm:text-5xl;
+  }
+
+  .section-copy {
+    @apply max-w-2xl text-sm leading-7 text-muted sm:text-base;
   }
 }

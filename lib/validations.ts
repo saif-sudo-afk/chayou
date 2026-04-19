@@ -1,0 +1,104 @@
+import { z } from "zod";
+import {
+  MOROCCAN_CITIES,
+  ORDER_STATUSES,
+  PRODUCT_CATEGORIES,
+} from "@/lib/constants";
+import { isMoroccanPhone } from "@/lib/utils";
+
+const nullablePositiveInt = z.preprocess(
+  (value) => {
+    if (value === "" || value === undefined || value === null) {
+      return null;
+    }
+
+    return Number(value);
+  },
+  z.number().int().positive().nullable(),
+);
+
+export const productSchema = z.object({
+  name: z.string().min(2).max(120),
+  description: z.string().min(10).max(2000),
+  price: z.coerce.number().int().positive(),
+  discountedPrice: nullablePositiveInt,
+  category: z.enum(PRODUCT_CATEGORIES),
+  stock: z.coerce.number().int().min(0),
+  images: z.array(z.string().url()).min(1),
+  isActive: z.boolean(),
+});
+
+export const packSchema = z.object({
+  name: z.string().min(2).max(120),
+  description: z.string().min(10).max(2000),
+  price: z.coerce.number().int().positive(),
+  discountedPrice: nullablePositiveInt,
+  productIds: z.array(z.number().int().positive()).min(1),
+  image: z.string().url(),
+  isActive: z.boolean(),
+});
+
+export const discountSchema = z
+  .object({
+    scope: z.enum(["sitewide", "product", "pack"]),
+    productId: nullablePositiveInt.optional(),
+    packId: nullablePositiveInt.optional(),
+    percentage: z.coerce.number().int().min(1).max(100),
+    expiresAt: z
+      .string()
+      .nullable()
+      .optional()
+      .transform((value) => (value === "" ? null : value)),
+    isActive: z.boolean(),
+  })
+  .superRefine((value, ctx) => {
+    if (value.scope === "product" && !value.productId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Select a product for product-specific discounts.",
+        path: ["productId"],
+      });
+    }
+
+    if (value.scope === "pack" && !value.packId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Select a pack for pack-specific discounts.",
+        path: ["packId"],
+      });
+    }
+  });
+
+export const orderItemSchema = z.object({
+  type: z.enum(["product", "pack"]),
+  productId: z.number().int().positive().optional(),
+  packId: z.number().int().positive().optional(),
+  name: z.string().min(1),
+  qty: z.number().int().min(1),
+  price: z.number().int().min(0),
+  image: z.string().url().nullable().optional(),
+});
+
+export const orderSchema = z.object({
+  customerName: z.string().min(2).max(120),
+  customerPhone: z
+    .string()
+    .refine(isMoroccanPhone, "Use a valid Moroccan WhatsApp number in +212 format."),
+  customerCity: z
+    .string()
+    .refine(
+      (value) =>
+        MOROCCAN_CITIES.includes(
+          value as (typeof MOROCCAN_CITIES)[number],
+        ),
+      "Select a Moroccan city.",
+    ),
+  customerAddress: z.string().min(8).max(300),
+  notes: z.string().max(500).nullable().optional(),
+  items: z.array(orderItemSchema).min(1),
+  totalAmount: z.number().int().positive(),
+});
+
+export const orderStatusSchema = z.object({
+  status: z.enum(ORDER_STATUSES),
+});
