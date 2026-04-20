@@ -25,7 +25,7 @@ export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full flex-col gap-6 border-r border-border bg-panel/80 p-6">
+    <aside className="flex h-full flex-col gap-6 border-r border-gold/25 bg-text p-6 text-surface">
       <Link href="/admin/dashboard">
         <LogoMark />
       </Link>
@@ -39,8 +39,8 @@ export function AdminSidebar() {
               className={cn(
                 "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition",
                 isActive
-                  ? "bg-gold text-black"
-                  : "text-muted hover:bg-white/5 hover:text-white",
+                  ? "bg-gold text-brand"
+                  : "text-border hover:bg-bg/10 hover:text-gold",
               )}
               href={item.href}
               key={item.href}

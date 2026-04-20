@@ -1,13 +1,14 @@
 "use client";
 
 import { ShoppingBag } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { ProductGallery } from "@/components/shop/product-gallery";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCartStore } from "@/hooks/use-cart-store";
 import type { CatalogProduct } from "@/lib/types";
-import { formatMAD } from "@/lib/utils";
+import { cn, formatMAD } from "@/lib/utils";
 
 type ProductCardProps = {
   product: CatalogProduct;
@@ -15,39 +16,70 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.16 },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <Card className="overflow-hidden rounded-[2rem]">
-      <div className="relative h-80 overflow-hidden bg-black/20">
+    <Card
+      className={cn(
+        "reveal-card overflow-hidden rounded-lg transition-colors duration-300 hover:border-gold",
+        visible && "is-visible",
+      )}
+      ref={ref}
+    >
+      <div className="relative aspect-square overflow-hidden bg-bg">
         <ProductGallery alt={product.name} images={product.images} />
       </div>
-      <CardContent className="space-y-5 pt-6">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2">
+      <CardContent className="space-y-4 p-4">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
             <Badge variant="muted">{product.category}</Badge>
-            <h3 className="font-display text-3xl tracking-[0.04em] text-white">
-              {product.name}
-            </h3>
+            {product.activeDiscountPercentage ? (
+              <Badge>{product.activeDiscountPercentage}%</Badge>
+            ) : null}
           </div>
-          {product.activeDiscountPercentage ? (
-            <Badge>{product.activeDiscountPercentage}% Off</Badge>
-          ) : null}
+          <h3 className="font-sans text-sm font-normal uppercase tracking-[0.08em] text-text">
+            {product.name}
+          </h3>
         </div>
-        <p className="line-clamp-2 text-sm leading-7 text-muted">
+        <p className="line-clamp-2 text-xs leading-6 text-muted">
           {product.description}
         </p>
-        <div className="flex items-end justify-between gap-4">
-          <div className="space-y-1">
+        <div className="space-y-3">
+          <div className="flex items-baseline gap-2">
             {product.effectivePrice < product.originalPrice ? (
-              <p className="text-sm text-muted line-through">
+              <p className="text-xs text-muted line-through">
                 {formatMAD(product.originalPrice)}
               </p>
             ) : null}
-            <p className="text-xl font-semibold text-gold">
+            <p className="text-[15px] font-medium text-gold">
               {formatMAD(product.effectivePrice)}
             </p>
           </div>
           <Button
+            className="w-full rounded"
             disabled={product.stock === 0}
             onClick={() =>
               addItem({
@@ -61,7 +93,7 @@ export function ProductCard({ product }: ProductCardProps) {
             }
           >
             <ShoppingBag className="mr-2 h-4 w-4" />
-            {product.stock > 0 ? "Add to Cart" : "Sold Out"}
+            {product.stock > 0 ? "Ajouter au panier" : "Épuisé"}
           </Button>
         </div>
       </CardContent>

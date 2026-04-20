@@ -26,7 +26,7 @@ export function StatsCard({
         </div>
       </CardHeader>
       <CardContent>
-        <p className="font-display text-5xl tracking-[0.08em] text-white">{value}</p>
+        <p className="font-display text-5xl tracking-[0.08em] text-brand">{value}</p>
       </CardContent>
     </Card>
   );

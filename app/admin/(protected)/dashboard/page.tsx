@@ -50,7 +50,7 @@ export default async function AdminDashboardPage() {
         <CardContent className="space-y-6 pt-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="font-display text-3xl tracking-[0.08em] text-white">
+              <h2 className="font-display text-3xl tracking-[0.08em] text-brand">
                 Recent Orders
               </h2>
               <p className="text-sm text-muted">
@@ -62,7 +62,7 @@ export default async function AdminDashboardPage() {
             </Button>
           </div>
 
-          <div className="overflow-hidden rounded-[1.5rem] border border-border bg-black/20">
+          <div className="overflow-hidden rounded-lg border border-border bg-surface">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -79,7 +79,7 @@ export default async function AdminDashboardPage() {
                   <TableRow key={order.id}>
                     <TableCell>
                       <div>
-                        <p className="font-medium text-white">{order.customerName}</p>
+                        <p className="font-medium text-text">{order.customerName}</p>
                         <p className="text-xs text-muted">{formatDateTime(order.createdAt)}</p>
                       </div>
                     </TableCell>

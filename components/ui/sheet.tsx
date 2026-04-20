@@ -16,7 +16,7 @@ const SheetOverlay = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
-    className={cn("fixed inset-0 z-50 bg-black/80 backdrop-blur-sm", className)}
+    className={cn("fixed inset-0 z-50 bg-text/55 backdrop-blur-sm", className)}
     {...props}
     ref={ref}
   />
@@ -24,14 +24,14 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-  "fixed z-50 gap-4 bg-panel p-6 shadow-glow transition ease-in-out border border-border",
+  "fixed z-50 gap-4 border border-border bg-surface p-6 shadow-editorial transition ease-in-out",
   {
     variants: {
       side: {
-        top: "inset-x-0 top-0 rounded-b-[2rem]",
-        bottom: "inset-x-0 bottom-0 rounded-t-[2rem]",
-        left: "inset-y-0 left-0 h-full w-3/4 rounded-r-[2rem] sm:max-w-lg",
-        right: "inset-y-0 right-0 h-full w-[92%] rounded-l-[2rem] sm:max-w-lg",
+        top: "inset-x-0 top-0 rounded-b-lg",
+        bottom: "inset-x-0 bottom-0 rounded-t-lg",
+        left: "inset-y-0 left-0 h-full w-3/4 rounded-r-lg sm:max-w-lg",
+        right: "inset-y-0 right-0 h-full w-[92%] rounded-l-lg sm:max-w-lg",
       },
     },
     defaultVariants: {
@@ -56,7 +56,7 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-white">
+      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-2 text-muted transition hover:bg-gold-light/30 hover:text-brand">
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
@@ -85,7 +85,7 @@ const SheetTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("font-display text-3xl tracking-[0.08em] text-white", className)}
+    className={cn("font-display text-3xl font-normal tracking-[0.06em] text-brand", className)}
     {...props}
   />
 ));

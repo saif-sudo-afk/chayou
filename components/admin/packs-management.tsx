@@ -40,7 +40,7 @@ export function PacksManagement({ packs }: PacksManagementProps) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Pack" />,
       cell: ({ row }) => (
         <div>
-          <p className="font-medium text-white">{row.original.name}</p>
+          <p className="font-medium text-text">{row.original.name}</p>
           <p className="text-xs uppercase tracking-[0.16em] text-muted">
             {row.original.includedProducts.length} items
           </p>

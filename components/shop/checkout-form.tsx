@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { MessageCircle } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -108,14 +109,14 @@ export function CheckoutForm() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Your cart is empty</CardTitle>
+          <CardTitle>Votre panier est vide</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted">
-            Add products or packs before heading to checkout.
+            Ajoutez une pièce ou un pack avant de confirmer votre commande.
           </p>
           <Button asChild>
-            <Link href="/shop">Back to shop</Link>
+            <Link href="/shop">Retour à la boutique</Link>
           </Button>
         </CardContent>
       </Card>
@@ -126,12 +127,12 @@ export function CheckoutForm() {
     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
       <Card>
         <CardHeader>
-          <CardTitle>Delivery Details</CardTitle>
+          <CardTitle>Détails de livraison</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-5" onSubmit={onSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="customerName">Full Name</Label>
+              <Label htmlFor="customerName">Nom complet</Label>
               <Input id="customerName" {...form.register("customerName")} />
               {form.formState.errors.customerName ? (
                 <p className="text-sm text-danger">
@@ -140,7 +141,10 @@ export function CheckoutForm() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="customerPhone">WhatsApp Number</Label>
+              <Label className="inline-flex items-center gap-2" htmlFor="customerPhone">
+                <MessageCircle className="h-4 w-4 text-[#25D366]" />
+                Numéro WhatsApp
+              </Label>
               <Input
                 id="customerPhone"
                 placeholder="+212612345678"
@@ -153,14 +157,14 @@ export function CheckoutForm() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label>City</Label>
+              <Label>Ville</Label>
               <Controller
                 control={form.control}
                 name="customerCity"
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select your city" />
+                      <SelectValue placeholder="Choisir votre ville" />
                     </SelectTrigger>
                     <SelectContent>
                       {MOROCCAN_CITIES.map((city) => (
@@ -179,7 +183,7 @@ export function CheckoutForm() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="customerAddress">Full Address</Label>
+              <Label htmlFor="customerAddress">Adresse complète</Label>
               <Textarea id="customerAddress" {...form.register("customerAddress")} />
               {form.formState.errors.customerAddress ? (
                 <p className="text-sm text-danger">
@@ -188,15 +192,15 @@ export function CheckoutForm() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="notes">Order Notes</Label>
+              <Label htmlFor="notes">Notes de commande</Label>
               <Textarea
                 id="notes"
-                placeholder="Delivery notes, landmarks, preferred time..."
+                placeholder="Notes de livraison, repère, horaire préféré..."
                 {...form.register("notes")}
               />
             </div>
             <Button className="w-full" disabled={submitting} type="submit">
-              {submitting ? "Submitting..." : "Confirm Order"}
+              {submitting ? "Envoi..." : "Confirmer la commande"}
             </Button>
           </form>
         </CardContent>
@@ -204,16 +208,16 @@ export function CheckoutForm() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Order Summary</CardTitle>
+          <CardTitle>Résumé de commande</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {items.map((item) => (
             <div
-              className="flex items-center justify-between gap-3 rounded-[1.5rem] border border-border bg-black/20 px-4 py-3"
+              className="flex items-center justify-between gap-3 rounded-lg border border-border bg-bg/70 px-4 py-3"
               key={`${item.type}-${item.id}`}
             >
               <div>
-                <p className="font-display text-xl tracking-[0.04em] text-white">
+                <p className="font-display text-xl tracking-[0.04em] text-brand">
                   {item.name}
                 </p>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">
@@ -227,7 +231,7 @@ export function CheckoutForm() {
           ))}
           <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
             <span className="text-muted">Total</span>
-            <span className="font-semibold text-white">{formatMAD(subtotal)}</span>
+            <span className="font-medium text-text">{formatMAD(subtotal)}</span>
           </div>
         </CardContent>
       </Card>

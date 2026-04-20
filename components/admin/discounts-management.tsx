@@ -42,7 +42,7 @@ export function DiscountsManagement({ discounts }: DiscountsManagementProps) {
     {
       accessorKey: "targetName",
       header: ({ column }) => <DataTableColumnHeader column={column} title="Target" />,
-      cell: ({ row }) => <span className="font-medium text-white">{row.original.targetName}</span>,
+      cell: ({ row }) => <span className="font-medium text-text">{row.original.targetName}</span>,
     },
     {
       accessorKey: "percentage",

@@ -20,6 +20,7 @@ export function SectionHeading({
       ) : null}
       <div className="space-y-3">
         <h2 className="section-title">{title}</h2>
+        <div className="h-px w-10 bg-gold" />
         {description ? <p className="section-copy">{description}</p> : null}
       </div>
     </div>

@@ -24,25 +24,25 @@ export function CartDrawer() {
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetContent className="flex h-full flex-col" side="right">
         <SheetHeader>
-          <SheetTitle>Your Cart</SheetTitle>
+          <SheetTitle>Votre Panier</SheetTitle>
           <SheetDescription>
-            Review your selection before confirming on WhatsApp.
+            Vérifiez vos bijoux avant la confirmation WhatsApp.
           </SheetDescription>
         </SheetHeader>
 
         {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-[2rem] border border-dashed border-border bg-card/60 p-8 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand/20 text-gold">
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-border bg-bg/70 p-8 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gold-light text-brand">
               <ShoppingBag className="h-7 w-7" />
             </div>
             <div className="space-y-2">
-              <p className="font-display text-2xl tracking-[0.08em]">Your cart is empty</p>
+              <p className="font-display text-3xl text-brand">Panier vide</p>
               <p className="text-sm text-muted">
-                Add pieces from the shop or a curated pack to continue.
+                Ajoutez une pièce ou un pack pour continuer.
               </p>
             </div>
             <Button asChild onClick={() => setOpen(false)}>
-              <Link href="/shop">Browse the collection</Link>
+              <Link href="/shop">Voir la collection</Link>
             </Button>
           </div>
         ) : (
@@ -51,10 +51,10 @@ export function CartDrawer() {
               <div className="space-y-4">
                 {items.map((item) => (
                   <div
-                    className="surface-card flex gap-4 rounded-[1.75rem] border border-border p-4"
+                    className="flex gap-4 rounded-lg border border-border bg-bg/65 p-4"
                     key={`${item.type}-${item.id}`}
                   >
-                    <div className="relative h-24 w-20 overflow-hidden rounded-[1.25rem] bg-white/5">
+                    <div className="relative h-24 w-20 overflow-hidden rounded-md bg-surface">
                       {item.image ? (
                         <Image
                           alt={item.name}
@@ -67,7 +67,7 @@ export function CartDrawer() {
                     </div>
                     <div className="flex flex-1 flex-col justify-between">
                       <div>
-                        <p className="font-display text-xl tracking-[0.04em] text-white">
+                        <p className="font-display text-2xl text-brand">
                           {item.name}
                         </p>
                         <p className="text-xs uppercase tracking-[0.18em] text-muted">
@@ -75,9 +75,9 @@ export function CartDrawer() {
                         </p>
                       </div>
                       <div className="flex items-center justify-between gap-4">
-                        <div className="inline-flex items-center rounded-full border border-border bg-black/20 p-1">
+                        <div className="inline-flex items-center rounded-full border border-border bg-surface p-1">
                           <button
-                            className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-white"
+                            className="rounded-full p-2 text-muted transition hover:bg-gold-light/40 hover:text-brand"
                             onClick={() =>
                               updateQuantity(item.type, item.id, Math.max(1, item.qty - 1))
                             }
@@ -87,7 +87,7 @@ export function CartDrawer() {
                           </button>
                           <span className="min-w-8 text-center text-sm">{item.qty}</span>
                           <button
-                            className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-white"
+                            className="rounded-full p-2 text-muted transition hover:bg-gold-light/40 hover:text-brand"
                             onClick={() => updateQuantity(item.type, item.id, item.qty + 1)}
                             type="button"
                           >
@@ -99,7 +99,7 @@ export function CartDrawer() {
                             {formatMAD(item.price * item.qty)}
                           </span>
                           <button
-                            className="rounded-full p-2 text-muted transition hover:bg-brand/20 hover:text-white"
+                            className="rounded-full p-2 text-muted transition hover:bg-brand hover:text-surface"
                             onClick={() => removeItem(item.type, item.id)}
                             type="button"
                           >
@@ -115,11 +115,11 @@ export function CartDrawer() {
 
             <SheetFooter className="border-t border-border pt-6">
               <div className="flex items-center justify-between text-sm text-muted">
-                <span>Subtotal</span>
-                <span className="font-medium text-white">{formatMAD(subtotal)}</span>
+                <span>Sous-total</span>
+                <span className="font-medium text-text">{formatMAD(subtotal)}</span>
               </div>
               <Button asChild className="w-full" onClick={() => setOpen(false)}>
-                <Link href="/checkout">Proceed to checkout</Link>
+                <Link href="/checkout">Passer commande</Link>
               </Button>
             </SheetFooter>
           </>

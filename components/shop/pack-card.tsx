@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { ShoppingBag } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCartStore } from "@/hooks/use-cart-store";
 import type { CatalogPack } from "@/lib/types";
-import { formatMAD } from "@/lib/utils";
+import { cn, formatMAD } from "@/lib/utils";
 
 type PackCardProps = {
   pack: CatalogPack;
@@ -15,32 +16,62 @@ type PackCardProps = {
 
 export function PackCard({ pack }: PackCardProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
   const totalValue = pack.includedProducts.reduce(
     (total, product) => total + product.price,
     0,
   );
 
+  useEffect(() => {
+    const node = ref.current;
+
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.16 },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <Card className="overflow-hidden rounded-[2rem]">
-      <div className="relative h-80 overflow-hidden">
+    <Card
+      className={cn(
+        "reveal-card overflow-hidden rounded-lg transition-colors duration-300 hover:border-gold",
+        visible && "is-visible",
+      )}
+      ref={ref}
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-bg">
         <Image
           alt={pack.name}
-          className="object-cover transition duration-500 hover:scale-105"
+          className="object-cover transition duration-500 hover:scale-[1.02]"
           fill
           sizes="(max-width: 768px) 100vw, 600px"
           src={pack.image}
         />
       </div>
-      <CardContent className="space-y-5 pt-6">
+      <CardContent className="space-y-5 p-5">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <Badge variant="crimson">Curated Pack</Badge>
-            <h3 className="mt-3 font-display text-3xl tracking-[0.04em] text-white">
+            <Badge variant="crimson">Pack</Badge>
+            <h3 className="mt-3 font-display text-3xl font-normal text-brand">
               {pack.name}
             </h3>
           </div>
           {pack.activeDiscountPercentage ? (
-            <Badge>{pack.activeDiscountPercentage}% Off</Badge>
+            <Badge>{pack.activeDiscountPercentage}%</Badge>
           ) : null}
         </div>
         <p className="text-sm leading-7 text-muted">{pack.description}</p>
@@ -65,13 +96,13 @@ export function PackCard({ pack }: PackCardProps) {
         </div>
         <div className="flex items-end justify-between gap-4">
           <div className="space-y-1">
-            <p className="text-sm text-muted">Value {formatMAD(totalValue)}</p>
+            <p className="text-sm text-muted">Valeur {formatMAD(totalValue)}</p>
             {pack.effectivePrice < pack.originalPrice ? (
               <p className="text-sm text-muted line-through">
                 {formatMAD(pack.originalPrice)}
               </p>
             ) : null}
-            <p className="text-xl font-semibold text-gold">
+            <p className="text-[15px] font-medium text-gold">
               {formatMAD(pack.effectivePrice)}
             </p>
           </div>
@@ -88,7 +119,7 @@ export function PackCard({ pack }: PackCardProps) {
             }
           >
             <ShoppingBag className="mr-2 h-4 w-4" />
-            Add Pack
+            Ajouter
           </Button>
         </div>
       </CardContent>

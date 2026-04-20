@@ -1,38 +1,46 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+const heroImage =
+  "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1600&q=85";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-[34rem] bg-crimson-radial opacity-80" />
-      <div className="absolute right-0 top-24 h-72 w-72 rounded-full bg-gold/10 blur-3xl" />
-      <div className="container-shell relative flex min-h-[calc(100vh-6rem)] items-center py-20">
-        <div className="max-w-4xl animate-fade-up space-y-8">
-          <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.38em] text-gold">
-              Moroccan Jewelry House
-            </p>
-            <h1 className="font-display text-6xl leading-none text-shimmer animate-shimmer sm:text-7xl lg:text-[7rem]">
-              CHAYOU JEWELS
-            </h1>
-            <p className="max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
-              Modern silhouettes, durable finishes, and a dark luxury mood built
-              for everyday statement pieces across Morocco.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-4">
-            <Button asChild size="lg">
-              <Link href="/shop">
-                Shop Now
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+    <section
+      className="relative flex min-h-[calc(100vh-6rem)] items-center overflow-hidden bg-brand bg-cover bg-center"
+      style={{ backgroundImage: `url(${heroImage})` }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-bg/15 via-brand/10 to-brand/45" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-brand/45 to-transparent" />
+
+      <div className="container-shell relative z-10 flex min-h-[calc(100vh-6rem)] items-center justify-center py-20 text-center">
+        <div className="max-w-2xl space-y-5">
+          <p className="animate-fade-up text-[11px] font-light uppercase tracking-[0.26em] text-gold">
+            COLLECTION 2025
+          </p>
+          <h1
+            className="animate-fade-up font-display text-[52px] font-light italic leading-[0.95] text-surface sm:text-7xl"
+            style={{ animationDelay: "0.1s" }}
+          >
+            Bijoux Soleil
+          </h1>
+          <p
+            className="animate-fade-up text-sm font-light tracking-[0.08em] text-gold-light sm:text-base"
+            style={{ animationDelay: "0.2s" }}
+          >
+            Bijoux modernes, minimalistes et durables
+          </p>
+          <div className="animate-fade-up pt-3" style={{ animationDelay: "0.3s" }}>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/shop">Découvrir la collection</Link>
             </Button>
-            <div className="rounded-full border border-border bg-panel/70 px-5 py-3 text-sm text-muted">
-              Ships across Morocco only
-            </div>
           </div>
         </div>
+      </div>
+
+      <div className="absolute bottom-7 left-1/2 z-10 -translate-x-1/2 animate-float text-gold">
+        <ChevronDown className="h-7 w-7 stroke-[1.4]" />
       </div>
     </section>
   );

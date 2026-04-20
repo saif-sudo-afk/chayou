@@ -10,51 +10,63 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0D0D0D",
-        foreground: "#FFFFFF",
-        card: "#171717",
-        panel: "#1A1A1A",
-        border: "#2A2A2A",
-        muted: "#9E9E9E",
-        brand: "#8B0000",
+        bg: "#f3ecdc",
+        brand: "#4e0200",
         gold: "#C9A84C",
-        success: "#2F7D5D",
-        warning: "#A06B1A",
-        danger: "#9F3A3A",
+        "gold-light": "#e8d5a3",
+        text: "#2a1a0e",
+        muted: "#7a5c4a",
+        border: "#d4c4a8",
+        surface: "#faf7f0",
+        background: "#f3ecdc",
+        foreground: "#2a1a0e",
+        card: "#faf7f0",
+        panel: "#faf7f0",
+        success: "#6f7b45",
+        warning: "#e8d5a3",
+        danger: "#8f2c1f",
       },
       fontFamily: {
-        display: ["var(--font-cormorant)", "serif"],
-        sans: ["var(--font-manrope)", "sans-serif"],
+        display: ["Cormorant Garamond", "serif"],
+        sans: ["Jost", "sans-serif"],
       },
       backgroundImage: {
-        "crimson-radial":
-          "radial-gradient(circle at top, rgba(139,0,0,0.35), transparent 60%)",
+        parchment:
+          "radial-gradient(circle at 20% 0%, rgba(232,213,163,0.42), transparent 32%), linear-gradient(180deg, #f3ecdc, #efe3cd)",
+        "bordeaux-soft":
+          "linear-gradient(135deg, rgba(78,2,0,0.95), rgba(42,26,14,0.96))",
         "gold-radial":
           "radial-gradient(circle at center, rgba(201,168,76,0.18), transparent 60%)",
         "card-glow":
-          "linear-gradient(180deg, rgba(201,168,76,0.12), rgba(201,168,76,0) 42%)",
+          "linear-gradient(180deg, rgba(232,213,163,0.45), rgba(250,247,240,0) 42%)",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(201,168,76,0.08), 0 22px 60px rgba(0,0,0,0.35)",
+        glow: "0 20px 60px rgba(78, 2, 0, 0.12)",
+        editorial: "0 24px 80px rgba(42, 26, 14, 0.18)",
       },
       keyframes: {
-        shimmer: {
-          "0%": { backgroundPosition: "200% center" },
-          "100%": { backgroundPosition: "-200% center" },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-8px)" },
         },
-        "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(18px)" },
+        fadeUp: {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        pulseCart: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.12)" },
         },
       },
       animation: {
-        shimmer: "shimmer 6s linear infinite",
+        marquee: "marquee 24s linear infinite",
         float: "float 6s ease-in-out infinite",
-        "fade-up": "fade-up 0.6s ease-out both",
+        "fade-up": "fadeUp 0.6s ease-out both",
+        "pulse-cart": "pulseCart 0.45s ease-out",
       },
     },
   },

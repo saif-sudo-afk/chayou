@@ -45,7 +45,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">Name</p>
-                <p className="mt-2 text-white">{order.customerName}</p>
+                <p className="mt-2 text-text">{order.customerName}</p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">Phone</p>
@@ -55,21 +55,21 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">City</p>
-                <p className="mt-2 text-white">{order.customerCity}</p>
+                <p className="mt-2 text-text">{order.customerCity}</p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">Created</p>
-                <p className="mt-2 text-white">{formatDateTime(order.createdAt)}</p>
+                <p className="mt-2 text-text">{formatDateTime(order.createdAt)}</p>
               </div>
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.16em] text-muted">Address</p>
-              <p className="mt-2 text-white">{order.customerAddress}</p>
+              <p className="mt-2 text-text">{order.customerAddress}</p>
             </div>
             {order.notes ? (
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">Notes</p>
-                <p className="mt-2 text-white">{order.notes}</p>
+                <p className="mt-2 text-text">{order.notes}</p>
               </div>
             ) : null}
           </CardContent>
@@ -100,11 +100,11 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
         <CardContent className="space-y-4">
           {order.items.map((item) => (
             <div
-              className="flex items-center justify-between rounded-[1.5rem] border border-border bg-black/20 px-4 py-3"
+              className="flex items-center justify-between rounded-lg border border-border bg-bg px-4 py-3"
               key={`${item.type}-${item.productId ?? item.packId}`}
             >
               <div>
-                <p className="font-medium text-white">{item.name}</p>
+                <p className="font-medium text-text">{item.name}</p>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">
                   {item.qty} x {formatMAD(item.price)}
                 </p>
@@ -116,7 +116,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
           ))}
           <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
             <span className="text-muted">Order Total</span>
-            <span className="font-semibold text-white">{formatMAD(order.totalAmount)}</span>
+            <span className="font-semibold text-brand">{formatMAD(order.totalAmount)}</span>
           </div>
         </CardContent>
       </Card>

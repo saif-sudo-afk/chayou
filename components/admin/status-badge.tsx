@@ -6,14 +6,21 @@ type StatusBadgeProps = {
   status: OrderStatus;
 };
 
-const variantMap: Record<OrderStatus, "default" | "success" | "warning" | "danger" | "muted"> =
-  {
-    pending: "warning",
-    confirmed: "default",
-    shipped: "muted",
-    delivered: "success",
-    cancelled: "danger",
-  };
+type StatusVariant =
+  | "default"
+  | "success"
+  | "warning"
+  | "danger"
+  | "muted"
+  | "crimson";
+
+const variantMap: Record<OrderStatus, StatusVariant> = {
+  pending: "warning",
+  confirmed: "default",
+  shipped: "crimson",
+  delivered: "success",
+  cancelled: "danger",
+};
 
 export function StatusBadge({ status }: StatusBadgeProps) {
   return <Badge variant={variantMap[status]}>{getStatusLabel(status)}</Badge>;

@@ -5,9 +5,9 @@ export default function CheckoutPage() {
   return (
     <section className="container-shell space-y-10 py-14">
       <SectionHeading
-        description="Complete your details and we will contact you on WhatsApp to confirm the order."
-        eyebrow="Checkout"
-        title="Confirm Your Order"
+        description="Complétez vos informations et nous vous contacterons sur WhatsApp pour confirmer."
+        eyebrow="Commande"
+        title="Confirmer votre panier"
       />
       <CheckoutForm />
     </section>

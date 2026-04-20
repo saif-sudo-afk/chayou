@@ -64,14 +64,14 @@ export function OrdersManagement({ orders, filters }: OrdersManagementProps) {
     {
       accessorKey: "id",
       header: ({ column }) => <DataTableColumnHeader column={column} title="Order" />,
-      cell: ({ row }) => <span className="font-medium text-white">#{row.original.id}</span>,
+      cell: ({ row }) => <span className="font-medium text-text">#{row.original.id}</span>,
     },
     {
       accessorKey: "customerName",
       header: ({ column }) => <DataTableColumnHeader column={column} title="Customer" />,
       cell: ({ row }) => (
         <div>
-          <p className="font-medium text-white">{row.original.customerName}</p>
+          <p className="font-medium text-text">{row.original.customerName}</p>
           <a
             className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-gold"
             href={buildWhatsAppUrl(row.original.customerPhone, `Hello ${row.original.customerName}!`)}
@@ -130,7 +130,7 @@ export function OrdersManagement({ orders, filters }: OrdersManagementProps) {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 rounded-[2rem] border border-border bg-panel/50 p-5 lg:grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr_auto_auto] lg:items-end">
+      <div className="grid gap-4 rounded-lg border border-border bg-surface p-5 shadow-glow lg:grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr_auto_auto] lg:items-end">
         <div className="space-y-2">
           <Label htmlFor="search">Search by name or phone</Label>
           <Input id="search" value={search} onChange={(event) => setSearch(event.target.value)} />

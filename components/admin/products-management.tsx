@@ -71,7 +71,7 @@ export function ProductsManagement({ products }: ProductsManagementProps) {
       header: ({ column }) => <DataTableColumnHeader column={column} title="Product" />,
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
-          <div className="relative h-14 w-12 overflow-hidden rounded-xl border border-border bg-black/30">
+          <div className="relative h-14 w-12 overflow-hidden rounded-xl border border-border bg-bg">
             {row.original.primaryImage ? (
               <Image
                 alt={row.original.name}
@@ -83,7 +83,7 @@ export function ProductsManagement({ products }: ProductsManagementProps) {
             ) : null}
           </div>
           <div>
-            <p className="font-medium text-white">{row.original.name}</p>
+            <p className="font-medium text-text">{row.original.name}</p>
             <p className="text-xs uppercase tracking-[0.16em] text-muted">
               {row.original.category}
             </p>

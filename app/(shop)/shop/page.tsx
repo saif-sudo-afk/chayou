@@ -8,9 +8,9 @@ export default async function ShopPage() {
   return (
     <section className="container-shell space-y-10 py-14">
       <SectionHeading
-        description="Browse the full CHAYOU JEWELS edit and filter by category to find your next everyday signature."
-        eyebrow="Shop"
-        title="The Collection"
+        description="Parcourez l'édit CHAYOU JEWELS et filtrez par catégorie pour trouver votre signature quotidienne."
+        eyebrow="Boutique"
+        title="La Collection"
       />
       <ShopCatalog products={products} />
     </section>

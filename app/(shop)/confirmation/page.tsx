@@ -31,21 +31,21 @@ export default async function ConfirmationPage({
       <Card className="mx-auto max-w-3xl">
         <CardHeader className="space-y-3 text-center">
           <p className="text-xs uppercase tracking-[0.32em] text-gold">
-            Order Confirmed
+            Commande reçue
           </p>
-          <CardTitle>Your order has been received!</CardTitle>
+          <CardTitle>Votre commande a bien été reçue</CardTitle>
           <p className="text-sm text-muted">
-            We will contact you on WhatsApp {order.customerPhone} to confirm.
+            Nous vous contacterons sur WhatsApp {order.customerPhone} pour confirmer.
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
           {order.items.map((item) => (
             <div
-              className="flex items-center justify-between rounded-[1.5rem] border border-border bg-black/20 px-4 py-3"
+              className="flex items-center justify-between rounded-lg border border-border bg-bg/70 px-4 py-3"
               key={`${item.type}-${item.productId ?? item.packId}`}
             >
               <div>
-                <p className="font-display text-xl tracking-[0.04em] text-white">
+                <p className="font-display text-xl tracking-[0.04em] text-brand">
                   {item.name}
                 </p>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">
@@ -59,16 +59,16 @@ export default async function ConfirmationPage({
           ))}
           <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
             <span className="text-muted">Total</span>
-            <span className="font-semibold text-white">
+            <span className="font-medium text-text">
               {formatMAD(order.totalAmount)}
             </span>
           </div>
           <div className="flex flex-wrap gap-3 pt-4">
             <Button asChild>
-              <Link href="/shop">Continue Shopping</Link>
+              <Link href="/shop">Continuer mes achats</Link>
             </Button>
             <Button asChild variant="secondary">
-              <Link href="/">Back Home</Link>
+              <Link href="/">Retour accueil</Link>
             </Button>
           </div>
         </CardContent>

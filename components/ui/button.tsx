@@ -4,19 +4,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-normal tracking-[0.06em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-gold text-black hover:bg-gold/90 shadow-glow",
+          "bg-brand text-surface shadow-glow hover:bg-gold hover:text-brand",
         secondary:
-          "border border-border bg-card text-white hover:border-gold/40 hover:text-gold",
-        ghost: "text-white hover:bg-white/5 hover:text-gold",
+          "border border-border bg-surface text-brand hover:border-gold hover:bg-gold-light/40",
+        ghost: "text-brand hover:bg-gold-light/30 hover:text-brand",
         destructive:
-          "bg-brand text-white hover:bg-brand/90",
+          "bg-danger text-surface hover:bg-brand",
         outline:
-          "border border-gold/30 bg-transparent text-gold hover:border-gold hover:bg-gold/10",
+          "border border-gold bg-transparent text-gold hover:bg-gold hover:text-brand",
       },
       size: {
         default: "h-11 px-5",

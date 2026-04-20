@@ -21,13 +21,13 @@ export function ProductGallery({ images, alt }: ProductGalleryProps) {
   const [open, setOpen] = useState(false);
 
   if (!images[0]) {
-    return <div className="h-full w-full rounded-[1.75rem] bg-white/5" />;
+    return <div className="h-full w-full rounded-lg bg-bg" />;
   }
 
   return (
     <>
       <button
-        className="relative block h-full w-full overflow-hidden rounded-[1.75rem]"
+        className="relative block h-full w-full overflow-hidden"
         onClick={() => setOpen(true)}
         type="button"
       >
@@ -48,7 +48,7 @@ export function ProductGallery({ images, alt }: ProductGalleryProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 p-6 pt-4">
-            <div className="relative h-[24rem] overflow-hidden rounded-[1.75rem] border border-border bg-black/30 sm:h-[32rem]">
+            <div className="relative h-[24rem] overflow-hidden rounded-lg border border-border bg-bg sm:h-[32rem]">
               <Image
                 alt={alt}
                 className="object-cover"
@@ -61,7 +61,7 @@ export function ProductGallery({ images, alt }: ProductGalleryProps) {
               {images.map((image) => (
                 <button
                   className={cn(
-                    "relative h-24 w-20 shrink-0 snap-start overflow-hidden rounded-[1rem] border border-border transition",
+                    "relative h-24 w-20 shrink-0 snap-start overflow-hidden rounded-md border border-border transition",
                     selectedImage === image && "border-gold",
                   )}
                   key={image}

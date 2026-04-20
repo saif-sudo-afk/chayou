@@ -173,9 +173,9 @@ export function ProductForm({ initialValues }: ProductFormProps) {
               <Label htmlFor="stock">Stock Quantity</Label>
               <Input id="stock" min={0} step={1} type="number" {...form.register("stock")} />
             </div>
-            <div className="flex items-center justify-between rounded-[1.5rem] border border-border bg-black/20 px-4 py-3">
+            <div className="flex items-center justify-between rounded-lg border border-border bg-bg px-4 py-3">
               <div>
-                <p className="text-sm font-medium text-white">Active product</p>
+                <p className="text-sm font-medium text-text">Active product</p>
                 <p className="text-xs text-muted">Inactive products disappear from the storefront.</p>
               </div>
               <Controller

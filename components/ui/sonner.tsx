@@ -12,11 +12,11 @@ export function Toaster() {
       toastOptions={{
         classNames: {
           toast:
-            "!border-border !bg-panel !text-white !shadow-[0_18px_50px_rgba(0,0,0,0.35)]",
-          title: "!text-white",
+            "!border-border !bg-surface !text-text !shadow-[0_18px_50px_rgba(78,2,0,0.16)]",
+          title: "!text-text",
           description: "!text-muted",
-          actionButton: "!bg-gold !text-black",
-          cancelButton: "!bg-brand !text-white",
+          actionButton: "!bg-brand !text-surface",
+          cancelButton: "!bg-gold !text-brand",
         },
       }}
     />

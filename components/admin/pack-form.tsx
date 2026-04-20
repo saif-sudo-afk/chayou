@@ -156,9 +156,9 @@ export function PackForm({ initialValues, productOptions }: PackFormProps) {
                 {...form.register("discountedPrice")}
               />
             </div>
-            <div className="flex items-center justify-between rounded-[1.5rem] border border-border bg-black/20 px-4 py-3">
+            <div className="flex items-center justify-between rounded-lg border border-border bg-bg px-4 py-3">
               <div>
-                <p className="text-sm font-medium text-white">Active pack</p>
+                <p className="text-sm font-medium text-text">Active pack</p>
                 <p className="text-xs text-muted">Inactive packs stay in admin only.</p>
               </div>
               <Controller
@@ -191,7 +191,7 @@ export function PackForm({ initialValues, productOptions }: PackFormProps) {
 
           <div className="space-y-4">
             <div>
-              <p className="text-sm font-medium text-white">Included products</p>
+              <p className="text-sm font-medium text-text">Included products</p>
               <p className="text-xs text-muted">
                 Select the pieces that belong to this pack.
               </p>
@@ -202,7 +202,7 @@ export function PackForm({ initialValues, productOptions }: PackFormProps) {
 
                 return (
                   <label
-                    className="flex items-start gap-3 rounded-[1.5rem] border border-border bg-black/20 px-4 py-4"
+                    className="flex items-start gap-3 rounded-lg border border-border bg-bg px-4 py-4 transition hover:border-gold"
                     key={product.id}
                   >
                     <Checkbox
@@ -223,7 +223,7 @@ export function PackForm({ initialValues, productOptions }: PackFormProps) {
                       }}
                     />
                     <div className="space-y-1">
-                      <p className="font-medium text-white">{product.name}</p>
+                      <p className="font-medium text-text">{product.name}</p>
                       <p className="text-xs uppercase tracking-[0.16em] text-muted">
                         {formatMAD(product.price)}
                       </p>

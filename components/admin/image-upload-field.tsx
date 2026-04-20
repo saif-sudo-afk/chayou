@@ -89,14 +89,14 @@ export function ImageUploadField({
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {value.map((url) => (
             <div
-              className="relative overflow-hidden rounded-[1.5rem] border border-border bg-black/20"
+              className="relative overflow-hidden rounded-lg border border-border bg-bg"
               key={url}
             >
               <div className="relative h-36">
                 <Image alt="Upload preview" className="object-cover" fill sizes="240px" src={url} />
               </div>
               <button
-                className="absolute right-3 top-3 rounded-full bg-black/60 p-2 text-white transition hover:bg-brand"
+                className="absolute right-3 top-3 rounded-full bg-brand/80 p-2 text-surface transition hover:bg-gold hover:text-brand"
                 onClick={() => onChange(value.filter((image) => image !== url))}
                 type="button"
               >
@@ -106,7 +106,7 @@ export function ImageUploadField({
           ))}
         </div>
       ) : (
-        <div className="rounded-[1.5rem] border border-dashed border-border bg-black/10 px-4 py-6 text-sm text-muted">
+        <div className="rounded-lg border border-dashed border-border bg-bg px-4 py-6 text-sm text-muted">
           No images uploaded yet.
         </div>
       )}

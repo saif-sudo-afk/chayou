@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CollectionsSection } from "@/components/shop/collections-section";
 import { HeroSection } from "@/components/shop/hero-section";
 import { PackCard } from "@/components/shop/pack-card";
 import { ProductCard } from "@/components/shop/product-card";
@@ -11,37 +12,39 @@ export default async function HomePage() {
   const { featuredProducts, activePacks } = await getHomePageData();
 
   return (
-    <div className="space-y-24 pb-24">
+    <div className="pb-20">
       <HeroSection />
-      <ValuesStrip />
+      <CollectionsSection />
 
-      <section className="container-shell space-y-10">
+      <section className="container-shell space-y-10 py-16">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
-            description="A selection of the latest CHAYOU pieces with clean silhouettes and durable finishes."
-            eyebrow="Featured"
-            title="Latest Jewelry Drops"
+            description="Une sélection de pièces lumineuses, minimalistes et faciles à porter."
+            eyebrow="Sélection"
+            title="Nouveautés Chayou"
           />
           <Button asChild variant="outline">
-            <Link href="/shop">View Full Shop</Link>
+            <Link href="/shop">Voir la boutique</Link>
           </Button>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {featuredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
 
-      <section className="container-shell space-y-10">
+      <ValuesStrip />
+
+      <section className="container-shell space-y-10 py-16">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
-            description="Curated combinations designed for gifting and styling in one move."
-            eyebrow="Curated Packs"
-            title="Luxury Sets"
+            description="Des ensembles prêts à offrir, composés pour briller avec douceur."
+            eyebrow="Packs"
+            title="Ensembles Soleil"
           />
           <Button asChild variant="outline">
-            <Link href="/packs">Browse Packs</Link>
+            <Link href="/packs">Voir les packs</Link>
           </Button>
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
