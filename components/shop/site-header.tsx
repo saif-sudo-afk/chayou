@@ -57,7 +57,7 @@ export function SiteHeader() {
           </button>
 
           <Link className="flex justify-center" href="/">
-            <LogoMark className="max-w-[11.5rem] sm:max-w-none" compact />
+            <LogoMark compact />
           </Link>
 
           <div className="flex items-center justify-end gap-3">
@@ -83,7 +83,9 @@ export function SiteHeader() {
       <div
         className={cn(
           "fixed inset-0 z-[60] transition-opacity duration-300",
-          menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+          menuOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
         )}
       >
         <button
@@ -109,7 +111,7 @@ export function SiteHeader() {
               <X className="h-6 w-6 stroke-[1.4]" />
             </button>
             <Link className="flex justify-center" href="/" onClick={() => setMenuOpen(false)}>
-              <LogoMark className="max-w-[10.5rem]" compact />
+              <LogoMark compact />
             </Link>
             <div className="justify-self-end">
               <CartButton />

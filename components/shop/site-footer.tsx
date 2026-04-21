@@ -15,7 +15,7 @@ export function SiteFooter() {
     <footer id="contact" className="bg-text text-border">
       <div className="container-shell grid gap-10 py-12 md:grid-cols-[1.3fr_1fr]">
         <div className="space-y-4">
-          <LogoMark showTagline theme="dark" />
+          <LogoMark className="w-fit" />
           <p className="max-w-sm text-sm font-light leading-7 text-border/90">
             Modern, minimal, and durable jewelry with warm editorial tones for
             everyday Moroccan light.

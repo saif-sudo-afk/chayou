@@ -19,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { MOROCCAN_CITIES } from "@/lib/constants";
@@ -41,14 +40,13 @@ const checkoutSchema = z.object({
 
 type CheckoutValues = z.infer<typeof checkoutSchema>;
 
-export function CheckoutForm() {
+type CheckoutFormProps = {
+  deliveryFeeEnabled: boolean;
+};
+
+export function CheckoutForm({ deliveryFeeEnabled }: CheckoutFormProps) {
   const router = useRouter();
-  const {
-    clearCart,
-    deliveryFeeEnabled,
-    items,
-    setDeliveryFeeEnabled,
-  } = useCartStore();
+  const { items, clearCart } = useCartStore();
   const [submitting, setSubmitting] = useState(false);
   const subtotal = useMemo(
     () => items.reduce((total, item) => total + item.price * item.qty, 0),
@@ -93,7 +91,6 @@ export function CheckoutForm() {
             price: item.price,
             image: item.image,
           })),
-          includeDeliveryFee: deliveryFeeEnabled,
           totalAmount: total,
         }),
       });
@@ -244,18 +241,12 @@ export function CheckoutForm() {
           ))}
 
           <div className="rounded-[1.5rem] border border-border bg-bg/70 p-4">
-            <div className="flex items-center justify-between gap-4">
-              <div className="space-y-1">
-                <p className="font-medium text-brand">Frais de livraison</p>
-                <p className="text-sm text-muted">
-                  Activez le supplement pour ajouter 25 MAD au total.
-                </p>
-              </div>
-              <Switch
-                checked={deliveryFeeEnabled}
-                onCheckedChange={setDeliveryFeeEnabled}
-              />
-            </div>
+            <p className="font-medium text-brand">Livraison</p>
+            <p className="mt-1 text-sm text-muted">
+              {deliveryFeeEnabled
+                ? "Les commandes ajoutent automatiquement 25 MAD de frais de livraison."
+                : "Livraison gratuite actuellement active."}
+            </p>
             <span
               className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs uppercase tracking-[0.18em] ${
                 deliveryFeeEnabled
@@ -264,8 +255,8 @@ export function CheckoutForm() {
               }`}
             >
               {deliveryFeeEnabled
-                ? `Livraison ajoutee: ${formatMAD(deliveryFee)}`
-                : "Livraison gratuite active"}
+                ? `Livraison: ${formatMAD(deliveryFee)}`
+                : "Livraison gratuite"}
             </span>
           </div>
 

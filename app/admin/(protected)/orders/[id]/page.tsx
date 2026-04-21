@@ -5,7 +5,12 @@ import { StatusBadge } from "@/components/admin/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAdminOrder } from "@/lib/queries";
-import { buildCustomerStatusMessage, buildWhatsAppUrl, formatDateTime, formatMAD } from "@/lib/utils";
+import {
+  buildCustomerStatusMessage,
+  buildWhatsAppUrl,
+  formatDateTime,
+  formatMAD,
+} from "@/lib/utils";
 
 type OrderDetailPageProps = {
   params: {
@@ -13,7 +18,9 @@ type OrderDetailPageProps = {
   };
 };
 
-export default async function OrderDetailPage({ params }: OrderDetailPageProps) {
+export default async function OrderDetailPage({
+  params,
+}: OrderDetailPageProps) {
   const order = await getAdminOrder(Number(params.id));
 
   if (!order) {
@@ -49,7 +56,12 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-muted">Phone</p>
-                <a className="mt-2 inline-flex text-gold" href={contactUrl} rel="noreferrer" target="_blank">
+                <a
+                  className="mt-2 inline-flex text-gold"
+                  href={contactUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
                   {order.customerPhone}
                 </a>
               </div>
@@ -114,6 +126,20 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
               </span>
             </div>
           ))}
+          <div className="flex items-center justify-between text-sm text-muted">
+            <span>Delivery Fee</span>
+            <span
+              className={
+                order.deliveryFeeAmount > 0
+                  ? "font-medium text-text"
+                  : "font-medium text-success"
+              }
+            >
+              {order.deliveryFeeAmount > 0
+                ? formatMAD(order.deliveryFeeAmount)
+                : "Free delivery"}
+            </span>
+          </div>
           <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
             <span className="text-muted">Order Total</span>
             <span className="font-semibold text-brand">{formatMAD(order.totalAmount)}</span>

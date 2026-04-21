@@ -31,9 +31,9 @@ export default async function ConfirmationPage({
       <Card className="mx-auto max-w-3xl">
         <CardHeader className="space-y-3 text-center">
           <p className="text-xs uppercase tracking-[0.32em] text-gold">
-            Commande reçue
+            Commande recue
           </p>
-          <CardTitle>Votre commande a bien été reçue</CardTitle>
+          <CardTitle>Votre commande a bien ete recue</CardTitle>
           <p className="text-sm text-muted">
             Nous vous contacterons sur WhatsApp {order.customerPhone} pour confirmer.
           </p>
@@ -57,6 +57,20 @@ export default async function ConfirmationPage({
               </span>
             </div>
           ))}
+          <div className="flex items-center justify-between text-sm text-muted">
+            <span>Livraison</span>
+            <span
+              className={
+                order.deliveryFeeAmount > 0
+                  ? "font-medium text-text"
+                  : "font-medium text-success"
+              }
+            >
+              {order.deliveryFeeAmount > 0
+                ? formatMAD(order.deliveryFeeAmount)
+                : "Gratuite"}
+            </span>
+          </div>
           <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
             <span className="text-muted">Total</span>
             <span className="font-medium text-text">

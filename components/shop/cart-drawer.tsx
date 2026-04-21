@@ -24,7 +24,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Switch } from "@/components/ui/switch";
 import { useCartStore } from "@/hooks/use-cart-store";
 import {
   calculateOrderTotal,
@@ -37,17 +36,13 @@ const itemTypeLabels: Record<string, string> = {
   pack: "Pack",
 };
 
-export function CartDrawer() {
-  const {
-    clearCart,
-    deliveryFeeEnabled,
-    isOpen,
-    items,
-    removeItem,
-    setDeliveryFeeEnabled,
-    setOpen,
-    updateQuantity,
-  } = useCartStore();
+type CartDrawerProps = {
+  deliveryFeeEnabled: boolean;
+};
+
+export function CartDrawer({ deliveryFeeEnabled }: CartDrawerProps) {
+  const { clearCart, isOpen, items, removeItem, setOpen, updateQuantity } =
+    useCartStore();
   const subtotal = items.reduce((total, item) => total + item.price * item.qty, 0);
   const deliveryFee = getDeliveryFeeAmount(deliveryFeeEnabled);
   const total = calculateOrderTotal(subtotal, deliveryFeeEnabled);
@@ -94,18 +89,12 @@ export function CartDrawer() {
 
           {items.length > 0 ? (
             <div className="rounded-[1.5rem] border border-border bg-bg/70 p-4">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <p className="font-medium text-brand">Frais de livraison</p>
-                  <p className="text-sm text-muted">
-                    Activez le supplement si vous souhaitez ajouter 25 MAD au total.
-                  </p>
-                </div>
-                <Switch
-                  checked={deliveryFeeEnabled}
-                  onCheckedChange={setDeliveryFeeEnabled}
-                />
-              </div>
+              <p className="font-medium text-brand">Livraison</p>
+              <p className="mt-1 text-sm text-muted">
+                {deliveryFeeEnabled
+                  ? "Les commandes ajoutent automatiquement 25 MAD de frais de livraison."
+                  : "Livraison gratuite actuellement active."}
+              </p>
               <span
                 className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs uppercase tracking-[0.18em] ${
                   deliveryFeeEnabled
@@ -114,8 +103,8 @@ export function CartDrawer() {
                 }`}
               >
                 {deliveryFeeEnabled
-                  ? `Livraison ajoutee: ${formatMAD(deliveryFee)}`
-                  : "Livraison gratuite active"}
+                  ? `Livraison: ${formatMAD(deliveryFee)}`
+                  : "Livraison gratuite"}
               </span>
             </div>
           ) : null}

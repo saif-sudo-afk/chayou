@@ -96,10 +96,13 @@ export const orderSchema = z.object({
   customerAddress: z.string().min(8).max(300),
   notes: z.string().max(500).nullable().optional(),
   items: z.array(orderItemSchema).min(1),
-  includeDeliveryFee: z.boolean().default(false),
   totalAmount: z.number().int().positive(),
 });
 
 export const orderStatusSchema = z.object({
   status: z.enum(ORDER_STATUSES),
+});
+
+export const storeSettingsSchema = z.object({
+  deliveryFeeEnabled: z.boolean(),
 });

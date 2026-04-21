@@ -1,21 +1,33 @@
 import Link from "next/link";
 import { DollarSign, Gem, PackageCheck, ShoppingBag } from "lucide-react";
+import { DeliverySettingsForm } from "@/components/admin/delivery-settings-form";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatsCard } from "@/components/admin/stats-card";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { getAdminDashboardData } from "@/lib/queries";
+import { getStoreSettings } from "@/lib/store-settings";
 import { formatDateTime, formatMAD } from "@/lib/utils";
 
 export default async function AdminDashboardPage() {
-  const { stats, recentOrders } = await getAdminDashboardData();
+  const [{ stats, recentOrders }, settings] = await Promise.all([
+    getAdminDashboardData(),
+    getStoreSettings(),
+  ]);
 
   return (
     <div className="space-y-8">
       <PageHeader
-        description="A quick view of CHAYOU orders, catalog health, and revenue."
+        description="A quick view of CHAYOU orders, catalog health, revenue, and delivery rules."
         title="Dashboard"
       />
 
@@ -45,6 +57,12 @@ export default async function AdminDashboardPage() {
           value={String(stats.activeProducts)}
         />
       </div>
+
+      <Card>
+        <CardContent className="pt-6">
+          <DeliverySettingsForm deliveryFeeEnabled={settings.deliveryFeeEnabled} />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardContent className="space-y-6 pt-6">
@@ -80,12 +98,16 @@ export default async function AdminDashboardPage() {
                     <TableCell>
                       <div>
                         <p className="font-medium text-text">{order.customerName}</p>
-                        <p className="text-xs text-muted">{formatDateTime(order.createdAt)}</p>
+                        <p className="text-xs text-muted">
+                          {formatDateTime(order.createdAt)}
+                        </p>
                       </div>
                     </TableCell>
                     <TableCell>{order.customerPhone}</TableCell>
                     <TableCell>{order.customerCity}</TableCell>
-                    <TableCell className="text-gold">{formatMAD(order.totalAmount)}</TableCell>
+                    <TableCell className="text-gold">
+                      {formatMAD(order.totalAmount)}
+                    </TableCell>
                     <TableCell>
                       <StatusBadge status={order.status} />
                     </TableCell>

@@ -2,6 +2,7 @@ import { and, eq, inArray } from "drizzle-orm";
 import { packs, products } from "@/drizzle/schema";
 import { getDb } from "@/lib/db";
 import { getActiveDiscounts } from "@/lib/queries";
+import { getStoreSettings } from "@/lib/store-settings";
 import type { OrderItem } from "@/lib/types";
 import {
   calculateOrderTotal,
@@ -26,7 +27,7 @@ export async function buildCanonicalOrder(
     .filter((item) => item.type === "pack" && item.packId)
     .map((item) => item.packId!);
 
-  const [productRows, packRows, discountRows] = await Promise.all([
+  const [productRows, packRows, discountRows, settings] = await Promise.all([
     productIds.length > 0
       ? db
           .select()
@@ -40,6 +41,7 @@ export async function buildCanonicalOrder(
           .where(and(inArray(packs.id, packIds), eq(packs.isActive, true)))
       : Promise.resolve([]),
     getActiveDiscounts(),
+    getStoreSettings(),
   ]);
 
   const productMap = new Map(productRows.map((product) => [product.id, product]));
@@ -104,7 +106,8 @@ export async function buildCanonicalOrder(
   });
 
   const subtotalAmount = sumOrderItems(canonicalItems);
-  const includeDeliveryFee = options.includeDeliveryFee ?? false;
+  const includeDeliveryFee =
+    options.includeDeliveryFee ?? settings.deliveryFeeEnabled;
 
   return {
     items: canonicalItems,

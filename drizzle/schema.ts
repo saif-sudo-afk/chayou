@@ -63,6 +63,7 @@ export const orders = pgTable("orders", {
     .$type<OrderItem[]>()
     .notNull()
     .default(sql`'[]'::jsonb`),
+  deliveryFeeAmount: integer("delivery_fee_amount").notNull().default(0),
   totalAmount: integer("total_amount").notNull(),
   status: orderStatusEnum("status").notNull().default("pending"),
   notes: text("notes"),
@@ -86,6 +87,17 @@ export const discounts = pgTable("discounts", {
   isActive: boolean("is_active").notNull().default(true),
   expiresAt: timestamp("expires_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export const storeSettings = pgTable("store_settings", {
+  id: integer("id").primaryKey().default(1),
+  deliveryFeeEnabled: boolean("delivery_fee_enabled").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
 });

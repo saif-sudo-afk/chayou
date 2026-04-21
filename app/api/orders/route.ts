@@ -31,9 +31,6 @@ export async function POST(request: Request) {
     const db = getDb();
     const { items, deliveryFeeAmount, totalAmount } = await buildCanonicalOrder(
       parsed.data.items,
-      {
-        includeDeliveryFee: parsed.data.includeDeliveryFee,
-      },
     );
     const customerPhone = normalizeMoroccanPhone(parsed.data.customerPhone);
 
@@ -45,6 +42,7 @@ export async function POST(request: Request) {
         customerCity: parsed.data.customerCity,
         customerAddress: parsed.data.customerAddress,
         items,
+        deliveryFeeAmount,
         totalAmount,
         notes: parsed.data.notes ?? null,
       })

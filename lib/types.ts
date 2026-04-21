@@ -1,4 +1,10 @@
-import type { discounts, orders, packs, products } from "@/drizzle/schema";
+import type {
+  discounts,
+  orders,
+  packs,
+  products,
+  storeSettings,
+} from "@/drizzle/schema";
 import type { ORDER_STATUSES, PRODUCT_CATEGORIES } from "@/lib/constants";
 
 export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
@@ -20,6 +26,7 @@ export type PackRow = typeof packs.$inferSelect;
 export type PackInsert = typeof packs.$inferInsert;
 export type DiscountRow = typeof discounts.$inferSelect;
 export type OrderRow = typeof orders.$inferSelect;
+export type StoreSettingsRow = typeof storeSettings.$inferSelect;
 
 export type CatalogPricing = {
   originalPrice: number;
