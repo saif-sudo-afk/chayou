@@ -23,8 +23,10 @@ const desktopItems = [
   { href: "/", label: "Accueil" },
   { href: "/shop", label: "Boutique" },
   { href: "/packs", label: "Packs" },
-  { href: "/checkout", label: "Panier" },
 ];
+
+const bannerCopy =
+  "Livraison partout au Maroc - Acier inoxydable premium - Waterproof & anti-ternissement - DM ou WhatsApp pour commander";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -32,50 +34,62 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="relative z-50 overflow-hidden bg-brand py-2 text-[13px] font-light text-bg">
-        <div className="flex w-max animate-marquee whitespace-nowrap">
-          <span className="px-8">
-            Livraison partout au Maroc · Acier inoxydable premium · Waterproof &
-            anti-ternissement · DM ou WhatsApp pour commander
-          </span>
-          <span className="px-8">
-            Livraison partout au Maroc · Acier inoxydable premium · Waterproof &
-            anti-ternissement · DM ou WhatsApp pour commander
-          </span>
-        </div>
-      </div>
+      <header className="sticky top-0 z-40">
+        <div className="relative overflow-hidden bg-brand text-bg">
+          <div className="container-shell flex h-12 items-center justify-center">
+            <div className="hidden flex-1 overflow-hidden lg:flex">
+              <div className="flex w-max animate-marquee whitespace-nowrap text-[11px] uppercase tracking-[0.2em] text-bg/80">
+                <span className="px-8">{bannerCopy}</span>
+                <span className="px-8">{bannerCopy}</span>
+              </div>
+            </div>
+            <p className="px-6 text-center text-[10px] uppercase tracking-[0.2em] text-bg/80 lg:hidden">
+              Livraison partout au Maroc - Waterproof & anti-ternissement
+            </p>
+            <div className="hidden flex-1 justify-end overflow-hidden lg:flex">
+              <div className="flex w-max whitespace-nowrap text-[11px] uppercase tracking-[0.2em] text-bg/80 [animation:marquee_20s_linear_infinite_reverse]">
+                <span className="px-8">{bannerCopy}</span>
+                <span className="px-8">{bannerCopy}</span>
+              </div>
+            </div>
+          </div>
 
-      <header className="sticky top-0 z-40 border-b border-border bg-bg/88 backdrop-blur-md">
-        <div className="container-shell grid h-16 grid-cols-[auto_1fr_auto] items-center gap-3">
-          <button
-            aria-label="Open menu"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-brand transition hover:bg-gold-light/35"
-            onClick={() => setMenuOpen(true)}
-            type="button"
+          <Link
+            className="absolute left-1/2 top-full z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-b-[1.75rem] bg-brand px-6 pb-4 pt-3 shadow-[0_18px_42px_rgba(44,8,4,0.34)]"
+            href="/"
           >
-            <Menu className="h-6 w-6 stroke-[1.5]" />
-          </button>
-
-          <Link className="flex justify-center" href="/">
-            <LogoMark compact />
+            <LogoMark banner />
           </Link>
+        </div>
 
-          <div className="flex items-center justify-end gap-3">
-            <nav className="hidden items-center gap-7 lg:flex">
-              {desktopItems.slice(0, 3).map((item) => (
-                <Link
-                  className={cn(
-                    "nav-link text-xs uppercase tracking-[0.16em] text-brand",
-                    pathname === item.href && "text-gold",
-                  )}
-                  href={item.href}
-                  key={item.href}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-            <CartButton />
+        <div className="border-b border-border bg-bg/92 pt-8 backdrop-blur-md">
+          <div className="container-shell flex h-16 items-center justify-between gap-4">
+            <button
+              aria-label="Open menu"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-brand transition hover:bg-gold-light/35"
+              onClick={() => setMenuOpen(true)}
+              type="button"
+            >
+              <Menu className="h-6 w-6 stroke-[1.5]" />
+            </button>
+
+            <div className="ml-auto flex items-center gap-3">
+              <nav className="hidden items-center gap-7 lg:flex">
+                {desktopItems.map((item) => (
+                  <Link
+                    className={cn(
+                      "nav-link text-xs uppercase tracking-[0.16em] text-brand",
+                      pathname === item.href && "text-gold",
+                    )}
+                    href={item.href}
+                    key={item.href}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              <CartButton />
+            </div>
           </div>
         </div>
       </header>
@@ -97,7 +111,7 @@ export function SiteHeader() {
 
         <div
           className={cn(
-            "relative flex h-full w-[84vw] max-w-[32rem] flex-col border-r border-border bg-bg shadow-editorial transition-transform duration-300 ease-out sm:w-1/2",
+            "relative flex h-full w-[78vw] max-w-[28rem] flex-col border-r border-border bg-bg shadow-editorial transition-transform duration-300 ease-out sm:w-1/2",
             menuOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >

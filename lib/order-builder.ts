@@ -12,7 +12,7 @@ import {
 } from "@/lib/utils";
 
 type BuildCanonicalOrderOptions = {
-  includeDeliveryFee?: boolean;
+  freeDeliveryEnabled?: boolean;
 };
 
 export async function buildCanonicalOrder(
@@ -106,13 +106,13 @@ export async function buildCanonicalOrder(
   });
 
   const subtotalAmount = sumOrderItems(canonicalItems);
-  const includeDeliveryFee =
-    options.includeDeliveryFee ?? settings.deliveryFeeEnabled;
+  const freeDeliveryEnabled =
+    options.freeDeliveryEnabled ?? settings.freeDeliveryEnabled;
 
   return {
     items: canonicalItems,
     subtotalAmount,
-    deliveryFeeAmount: getDeliveryFeeAmount(includeDeliveryFee),
-    totalAmount: calculateOrderTotal(subtotalAmount, includeDeliveryFee),
+    deliveryFeeAmount: getDeliveryFeeAmount(freeDeliveryEnabled),
+    totalAmount: calculateOrderTotal(subtotalAmount, freeDeliveryEnabled),
   };
 }

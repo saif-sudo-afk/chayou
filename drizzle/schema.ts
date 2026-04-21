@@ -93,7 +93,7 @@ export const discounts = pgTable("discounts", {
 
 export const storeSettings = pgTable("store_settings", {
   id: integer("id").primaryKey().default(1),
-  deliveryFeeEnabled: boolean("delivery_fee_enabled").notNull().default(false),
+  freeDeliveryEnabled: boolean("free_delivery_enabled").notNull().default(true),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

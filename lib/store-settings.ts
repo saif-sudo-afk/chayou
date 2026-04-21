@@ -2,7 +2,7 @@ import { storeSettings } from "@/drizzle/schema";
 import { getDb } from "@/lib/db";
 
 export const DEFAULT_STORE_SETTINGS = {
-  deliveryFeeEnabled: false,
+  freeDeliveryEnabled: true,
 } as const;
 
 export async function getStoreSettings() {
@@ -10,14 +10,14 @@ export async function getStoreSettings() {
     const db = getDb();
     const [settings] = await db
       .select({
-        deliveryFeeEnabled: storeSettings.deliveryFeeEnabled,
+        freeDeliveryEnabled: storeSettings.freeDeliveryEnabled,
       })
       .from(storeSettings)
       .limit(1);
 
     return {
-      deliveryFeeEnabled:
-        settings?.deliveryFeeEnabled ?? DEFAULT_STORE_SETTINGS.deliveryFeeEnabled,
+      freeDeliveryEnabled:
+        settings?.freeDeliveryEnabled ?? DEFAULT_STORE_SETTINGS.freeDeliveryEnabled,
     };
   } catch {
     return { ...DEFAULT_STORE_SETTINGS };
@@ -25,28 +25,28 @@ export async function getStoreSettings() {
 }
 
 export async function updateStoreSettings(input: {
-  deliveryFeeEnabled: boolean;
+  freeDeliveryEnabled: boolean;
 }) {
   const db = getDb();
   const [settings] = await db
     .insert(storeSettings)
     .values({
       id: 1,
-      deliveryFeeEnabled: input.deliveryFeeEnabled,
+      freeDeliveryEnabled: input.freeDeliveryEnabled,
       updatedAt: new Date(),
     })
     .onConflictDoUpdate({
       target: storeSettings.id,
       set: {
-        deliveryFeeEnabled: input.deliveryFeeEnabled,
+        freeDeliveryEnabled: input.freeDeliveryEnabled,
         updatedAt: new Date(),
       },
     })
     .returning({
-      deliveryFeeEnabled: storeSettings.deliveryFeeEnabled,
+      freeDeliveryEnabled: storeSettings.freeDeliveryEnabled,
     });
 
   return {
-    deliveryFeeEnabled: settings.deliveryFeeEnabled,
+    freeDeliveryEnabled: settings.freeDeliveryEnabled,
   };
 }

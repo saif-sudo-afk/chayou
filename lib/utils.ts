@@ -128,15 +128,15 @@ export function sumOrderItems(items: OrderItem[]) {
   return items.reduce((total, item) => total + item.price * item.qty, 0);
 }
 
-export function getDeliveryFeeAmount(includeDeliveryFee: boolean) {
-  return includeDeliveryFee ? DELIVERY_FEE_MAD : 0;
+export function getDeliveryFeeAmount(freeDeliveryEnabled: boolean) {
+  return freeDeliveryEnabled ? 0 : DELIVERY_FEE_MAD;
 }
 
 export function calculateOrderTotal(
   subtotalAmount: number,
-  includeDeliveryFee: boolean,
+  freeDeliveryEnabled: boolean,
 ) {
-  return subtotalAmount + getDeliveryFeeAmount(includeDeliveryFee);
+  return subtotalAmount + getDeliveryFeeAmount(freeDeliveryEnabled);
 }
 
 export function buildAdminOrderMessage(params: {

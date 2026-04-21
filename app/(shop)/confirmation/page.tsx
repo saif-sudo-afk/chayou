@@ -57,20 +57,14 @@ export default async function ConfirmationPage({
               </span>
             </div>
           ))}
-          <div className="flex items-center justify-between text-sm text-muted">
-            <span>Livraison</span>
-            <span
-              className={
-                order.deliveryFeeAmount > 0
-                  ? "font-medium text-text"
-                  : "font-medium text-success"
-              }
-            >
-              {order.deliveryFeeAmount > 0
-                ? formatMAD(order.deliveryFeeAmount)
-                : "Gratuite"}
-            </span>
-          </div>
+          {order.deliveryFeeAmount > 0 ? (
+            <div className="flex items-center justify-between text-sm text-muted">
+              <span>Frais de livraison</span>
+              <span className="font-medium text-text">
+                {formatMAD(order.deliveryFeeAmount)}
+              </span>
+            </div>
+          ) : null}
           <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
             <span className="text-muted">Total</span>
             <span className="font-medium text-text">

@@ -126,20 +126,14 @@ export default async function OrderDetailPage({
               </span>
             </div>
           ))}
-          <div className="flex items-center justify-between text-sm text-muted">
-            <span>Delivery Fee</span>
-            <span
-              className={
-                order.deliveryFeeAmount > 0
-                  ? "font-medium text-text"
-                  : "font-medium text-success"
-              }
-            >
-              {order.deliveryFeeAmount > 0
-                ? formatMAD(order.deliveryFeeAmount)
-                : "Free delivery"}
-            </span>
-          </div>
+          {order.deliveryFeeAmount > 0 ? (
+            <div className="flex items-center justify-between text-sm text-muted">
+              <span>Delivery Fee</span>
+              <span className="font-medium text-text">
+                {formatMAD(order.deliveryFeeAmount)}
+              </span>
+            </div>
+          ) : null}
           <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
             <span className="text-muted">Order Total</span>
             <span className="font-semibold text-brand">{formatMAD(order.totalAmount)}</span>

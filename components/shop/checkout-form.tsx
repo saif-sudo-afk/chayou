@@ -41,10 +41,10 @@ const checkoutSchema = z.object({
 type CheckoutValues = z.infer<typeof checkoutSchema>;
 
 type CheckoutFormProps = {
-  deliveryFeeEnabled: boolean;
+  freeDeliveryEnabled: boolean;
 };
 
-export function CheckoutForm({ deliveryFeeEnabled }: CheckoutFormProps) {
+export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
   const router = useRouter();
   const { items, clearCart } = useCartStore();
   const [submitting, setSubmitting] = useState(false);
@@ -52,8 +52,8 @@ export function CheckoutForm({ deliveryFeeEnabled }: CheckoutFormProps) {
     () => items.reduce((total, item) => total + item.price * item.qty, 0),
     [items],
   );
-  const deliveryFee = getDeliveryFeeAmount(deliveryFeeEnabled);
-  const total = calculateOrderTotal(subtotal, deliveryFeeEnabled);
+  const deliveryFee = getDeliveryFeeAmount(freeDeliveryEnabled);
+  const total = calculateOrderTotal(subtotal, freeDeliveryEnabled);
 
   const form = useForm<CheckoutValues>({
     resolver: zodResolver(checkoutSchema),
@@ -91,7 +91,6 @@ export function CheckoutForm({ deliveryFeeEnabled }: CheckoutFormProps) {
             price: item.price,
             image: item.image,
           })),
-          totalAmount: total,
         }),
       });
 
@@ -240,43 +239,17 @@ export function CheckoutForm({ deliveryFeeEnabled }: CheckoutFormProps) {
             </div>
           ))}
 
-          <div className="rounded-[1.5rem] border border-border bg-bg/70 p-4">
-            <p className="font-medium text-brand">Livraison</p>
-            <p className="mt-1 text-sm text-muted">
-              {deliveryFeeEnabled
-                ? "Les commandes ajoutent automatiquement 25 MAD de frais de livraison."
-                : "Livraison gratuite actuellement active."}
-            </p>
-            <span
-              className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs uppercase tracking-[0.18em] ${
-                deliveryFeeEnabled
-                  ? "bg-gold-light/55 text-brand"
-                  : "bg-success/12 text-success"
-              }`}
-            >
-              {deliveryFeeEnabled
-                ? `Livraison: ${formatMAD(deliveryFee)}`
-                : "Livraison gratuite"}
-            </span>
-          </div>
-
           <div className="rounded-[1.5rem] bg-bg/55 p-4">
             <div className="flex items-center justify-between text-sm text-muted">
               <span>Sous-total</span>
               <span className="font-medium text-text">{formatMAD(subtotal)}</span>
             </div>
-            <div className="mt-3 flex items-center justify-between text-sm">
-              <span className={deliveryFeeEnabled ? "text-muted" : "text-success"}>
-                Livraison
-              </span>
-              <span
-                className={
-                  deliveryFeeEnabled ? "font-medium text-text" : "font-medium text-success"
-                }
-              >
-                {deliveryFeeEnabled ? formatMAD(deliveryFee) : "Gratuite"}
-              </span>
-            </div>
+            {deliveryFee > 0 ? (
+              <div className="mt-3 flex items-center justify-between text-sm text-muted">
+                <span>Frais de livraison</span>
+                <span className="font-medium text-text">{formatMAD(deliveryFee)}</span>
+              </div>
+            ) : null}
             <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-lg">
               <span className="text-brand">Total</span>
               <span className="font-medium text-text">{formatMAD(total)}</span>

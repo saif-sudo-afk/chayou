@@ -12,7 +12,7 @@ export default async function CheckoutPage() {
         eyebrow="Commande"
         title="Confirmer votre panier"
       />
-      <CheckoutForm deliveryFeeEnabled={settings.deliveryFeeEnabled} />
+      <CheckoutForm freeDeliveryEnabled={settings.freeDeliveryEnabled} />
     </section>
   );
 }

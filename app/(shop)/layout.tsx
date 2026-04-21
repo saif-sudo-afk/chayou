@@ -18,7 +18,7 @@ export default async function ShopLayout({
       <SiteHeader />
       <main>{children}</main>
       <SiteFooter />
-      <CartDrawer deliveryFeeEnabled={settings.deliveryFeeEnabled} />
+      <CartDrawer freeDeliveryEnabled={settings.freeDeliveryEnabled} />
     </div>
   );
 }

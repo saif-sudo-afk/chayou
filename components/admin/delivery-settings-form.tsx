@@ -9,14 +9,14 @@ import { Switch } from "@/components/ui/switch";
 import { DELIVERY_FEE_MAD } from "@/lib/constants";
 
 type DeliverySettingsFormProps = {
-  deliveryFeeEnabled: boolean;
+  freeDeliveryEnabled: boolean;
 };
 
 export function DeliverySettingsForm({
-  deliveryFeeEnabled,
+  freeDeliveryEnabled,
 }: DeliverySettingsFormProps) {
   const router = useRouter();
-  const [value, setValue] = useState(deliveryFeeEnabled);
+  const [value, setValue] = useState(freeDeliveryEnabled);
   const [saving, setSaving] = useState(false);
 
   const handleSave = async () => {
@@ -29,7 +29,7 @@ export function DeliverySettingsForm({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          deliveryFeeEnabled: value,
+          freeDeliveryEnabled: value,
         }),
       });
 
@@ -53,11 +53,12 @@ export function DeliverySettingsForm({
       <div className="space-y-2">
         <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gold">
           <Truck className="h-4 w-4" />
-          Delivery Control
+          Free Delivery
         </div>
         <p className="text-sm text-muted">
-          Customers do not see this toggle. When enabled, every new order adds{" "}
-          {DELIVERY_FEE_MAD} MAD automatically.
+          Customers do not see this toggle. When it is on, new orders keep the
+          product subtotal. When it is off, {DELIVERY_FEE_MAD} MAD is added once
+          per order.
         </p>
       </div>
 
@@ -65,7 +66,7 @@ export function DeliverySettingsForm({
         <div className="flex items-center gap-3 rounded-full border border-border bg-bg/70 px-4 py-2">
           <Switch checked={value} onCheckedChange={setValue} />
           <span className="text-sm font-medium text-brand">
-            {value ? `Delivery fee on (${DELIVERY_FEE_MAD} MAD)` : "Free delivery"}
+            {value ? "Free delivery active" : `Add ${DELIVERY_FEE_MAD} MAD delivery fee`}
           </span>
         </div>
         <Button disabled={saving} type="button" onClick={handleSave}>

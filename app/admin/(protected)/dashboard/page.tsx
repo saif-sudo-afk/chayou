@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        description="A quick view of CHAYOU orders, catalog health, revenue, and delivery rules."
+        description="A quick view of CHAYOU orders, catalog health, revenue, and delivery policy."
         title="Dashboard"
       />
 
@@ -60,7 +60,7 @@ export default async function AdminDashboardPage() {
 
       <Card>
         <CardContent className="pt-6">
-          <DeliverySettingsForm deliveryFeeEnabled={settings.deliveryFeeEnabled} />
+          <DeliverySettingsForm freeDeliveryEnabled={settings.freeDeliveryEnabled} />
         </CardContent>
       </Card>
 
