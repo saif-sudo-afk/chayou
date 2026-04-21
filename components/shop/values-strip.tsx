@@ -1,4 +1,4 @@
-import { Gem, ShieldCheck, Sparkles, Waves } from "lucide-react";
+import { Banknote, Gem, ShieldCheck, Sparkles, Truck, Waves } from "lucide-react";
 
 const values = [
   {
@@ -9,7 +9,7 @@ const values = [
   {
     icon: Waves,
     title: "Waterproof & résistant",
-    description: "Résiste à l'eau, la transpiration et le quotidien.",
+    description: "Résiste à l'eau, à la transpiration et au quotidien.",
   },
   {
     icon: ShieldCheck,
@@ -21,6 +21,16 @@ const values = [
     title: "Port quotidien",
     description: "Minimal, lumineux, facile à superposer.",
   },
+  {
+    icon: Truck,
+    title: "Livraison 24 à 48 h",
+    description: "Expédition rapide partout au Maroc, avec suivi simple et direct.",
+  },
+  {
+    icon: Banknote,
+    title: "Paiement à la livraison",
+    description: "Commandez en toute confiance et réglez à la réception.",
+  },
 ];
 
 export function ValuesStrip() {
@@ -29,17 +39,17 @@ export function ValuesStrip() {
       <div className="container-shell space-y-8">
         <div className="text-center">
           <h2 className="font-display text-3xl font-light italic text-bg">
-            Pourquoi nous choisir
+            Pourquoi choisir Chayou
           </h2>
           <div className="mx-auto mt-4 h-px w-10 bg-gold" />
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((value) => {
             const Icon = value.icon;
 
             return (
               <div
-                className="rounded-lg border border-gold/30 bg-bg/10 p-5 text-center"
+                className="rounded-lg border border-gold/30 bg-bg/10 p-5 text-center shadow-[0_14px_34px_rgba(0,0,0,0.12)]"
                 key={value.title}
               >
                 <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-gold/50 text-gold">

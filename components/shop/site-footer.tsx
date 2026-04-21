@@ -26,10 +26,15 @@ export function SiteFooter() {
 
         <div className="space-y-5 md:text-right">
           <div className="space-y-2 text-sm font-light text-border">
-            <p>Email: contact@chayoujewels.ma</p>
-            <a className="inline-flex items-center gap-2 text-gold" href={whatsappHref} rel="noreferrer" target="_blank">
+            <p>Email: chyoujewels@gmail.com</p>
+            <a
+              className="inline-flex items-center gap-2 text-gold"
+              href={whatsappHref}
+              rel="noreferrer"
+              target="_blank"
+            >
               <Phone className="h-4 w-4" />
-              WhatsApp
+              {adminPhone ?? "WhatsApp"}
             </a>
           </div>
           <div className="flex items-center gap-4 md:justify-end">

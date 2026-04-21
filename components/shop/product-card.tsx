@@ -14,6 +14,14 @@ type ProductCardProps = {
   product: CatalogProduct;
 };
 
+const categoryLabels: Record<string, string> = {
+  rings: "Bagues",
+  bracelets: "Bracelets",
+  necklaces: "Colliers",
+  earrings: "Boucles",
+  sets: "Ensembles",
+};
+
 export function ProductCard({ product }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -55,7 +63,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardContent className="space-y-4 p-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between gap-2">
-            <Badge variant="muted">{product.category}</Badge>
+            <Badge variant="muted">{categoryLabels[product.category] ?? product.category}</Badge>
             {product.activeDiscountPercentage ? (
               <Badge>{product.activeDiscountPercentage}%</Badge>
             ) : null}
@@ -79,7 +87,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </p>
           </div>
           <Button
-            className="w-full rounded"
+            className="w-full"
             disabled={product.stock === 0}
             onClick={() =>
               addItem({

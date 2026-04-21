@@ -16,6 +16,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { formatMAD } from "@/lib/utils";
 
+const itemTypeLabels: Record<string, string> = {
+  product: "Produit",
+  pack: "Pack",
+};
+
 export function CartDrawer() {
   const { isOpen, items, setOpen, updateQuantity, removeItem } = useCartStore();
   const subtotal = items.reduce((total, item) => total + item.price * item.qty, 0);
@@ -71,7 +76,7 @@ export function CartDrawer() {
                           {item.name}
                         </p>
                         <p className="text-xs uppercase tracking-[0.18em] text-muted">
-                          {item.type}
+                          {itemTypeLabels[item.type] ?? item.type}
                         </p>
                       </div>
                       <div className="flex items-center justify-between gap-4">

@@ -25,12 +25,12 @@ import { MOROCCAN_CITIES } from "@/lib/constants";
 import { formatMAD } from "@/lib/utils";
 
 const checkoutSchema = z.object({
-  customerName: z.string().min(2, "Full name is required."),
+  customerName: z.string().min(2, "Le nom complet est requis."),
   customerPhone: z
     .string()
-    .regex(/^\+212[67]\d{8}$/, "Use a valid Moroccan WhatsApp number."),
-  customerCity: z.string().min(1, "Select a city."),
-  customerAddress: z.string().min(8, "Full address is required."),
+    .regex(/^\+212[67]\d{8}$/, "Utilisez un numéro WhatsApp marocain valide."),
+  customerCity: z.string().min(1, "Sélectionnez une ville."),
+  customerAddress: z.string().min(8, "L'adresse complète est requise."),
   notes: z.string().optional(),
 });
 
@@ -58,7 +58,7 @@ export function CheckoutForm() {
 
   const onSubmit = form.handleSubmit(async (values) => {
     if (items.length === 0) {
-      toast.error("Your cart is empty.");
+      toast.error("Votre panier est vide.");
       return;
     }
 
@@ -88,7 +88,7 @@ export function CheckoutForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message ?? "Failed to place your order.");
+        throw new Error(data.message ?? "Impossible d'envoyer votre commande.");
       }
 
       if (data.whatsappUrl) {
@@ -96,10 +96,10 @@ export function CheckoutForm() {
       }
 
       clearCart();
-      toast.success("Order received. We will confirm it on WhatsApp.");
+      toast.success("Commande reçue. Nous vous confirmerons sur WhatsApp.");
       router.push(`/confirmation?orderId=${data.orderId}`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Checkout failed.");
+      toast.error(error instanceof Error ? error.message : "Le paiement a échoué.");
     } finally {
       setSubmitting(false);
     }
