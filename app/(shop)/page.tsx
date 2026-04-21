@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandText } from "@/components/shop/brand-text";
 import { CollectionsSection } from "@/components/shop/collections-section";
 import { HeroSection } from "@/components/shop/hero-section";
 import { PackCard } from "@/components/shop/pack-card";
@@ -19,9 +20,13 @@ export default async function HomePage() {
       <section className="container-shell space-y-10 py-16">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
-            description="Une sélection de pièces lumineuses, minimalistes et faciles à porter."
-            eyebrow="Sélection"
-            title="Nouveautés Chayou"
+            description="Une selection de pieces lumineuses, minimalistes et faciles a porter."
+            eyebrow="Selection"
+            title={
+              <>
+                Nouveautes <BrandText className="text-4xl sm:text-5xl" short />
+              </>
+            }
           />
           <Button asChild variant="outline">
             <Link href="/shop">Voir la boutique</Link>
@@ -39,7 +44,7 @@ export default async function HomePage() {
       <section className="container-shell space-y-10 py-16">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading
-            description="Des ensembles prêts à offrir, composés pour briller avec douceur."
+            description="Des ensembles prets a offrir, composes pour briller avec douceur."
             eyebrow="Packs"
             title="Ensembles Soleil"
           />

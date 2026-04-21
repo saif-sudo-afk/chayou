@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { AtSign, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { CartButton } from "@/components/shop/cart-button";
+import { LogoMark } from "@/components/shop/logo-mark";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
@@ -45,18 +46,18 @@ export function SiteHeader() {
       </div>
 
       <header className="sticky top-0 z-40 border-b border-border bg-bg/88 backdrop-blur-md">
-        <div className="container-shell grid h-16 grid-cols-3 items-center">
+        <div className="container-shell grid h-16 grid-cols-[auto_1fr_auto] items-center gap-3">
           <button
             aria-label="Open menu"
-            className="flex h-10 w-10 items-center justify-center text-brand"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-brand transition hover:bg-gold-light/35"
             onClick={() => setMenuOpen(true)}
             type="button"
           >
             <Menu className="h-6 w-6 stroke-[1.5]" />
           </button>
 
-          <Link className="brand-wordmark justify-self-center text-[22px] sm:text-[26px]" href="/">
-            CHAYOU JEWELS
+          <Link className="flex justify-center" href="/">
+            <LogoMark className="max-w-[11.5rem] sm:max-w-none" compact />
           </Link>
 
           <div className="flex items-center justify-end gap-3">
@@ -81,60 +82,75 @@ export function SiteHeader() {
 
       <div
         className={cn(
-          "fixed inset-0 z-[60] bg-bg transition-transform duration-300 ease-out",
-          menuOpen ? "translate-x-0" : "-translate-x-full",
+          "fixed inset-0 z-[60] transition-opacity duration-300",
+          menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        <div className="container-shell grid h-16 grid-cols-3 items-center border-b border-border">
-          <button
-            aria-label="Close menu"
-            className="flex h-10 w-10 items-center justify-center text-brand"
-            onClick={() => setMenuOpen(false)}
-            type="button"
-          >
-            <X className="h-6 w-6 stroke-[1.4]" />
-          </button>
-          <Link
-            className="brand-wordmark justify-self-center text-[20px]"
-            href="/"
-            onClick={() => setMenuOpen(false)}
-          >
-            CHAYOU JEWELS
-          </Link>
-          <div className="justify-self-end">
-            <CartButton />
-          </div>
-        </div>
+        <button
+          aria-label="Close menu overlay"
+          className="absolute inset-0 bg-text/38 backdrop-blur-sm"
+          onClick={() => setMenuOpen(false)}
+          type="button"
+        />
 
-        <nav className="container-shell flex min-h-[calc(100vh-4rem)] flex-col justify-between py-12">
-          <div className="space-y-5">
-            {menuItems.map((item, index) => (
-              <Link
-                className="block font-display text-[32px] font-normal leading-tight text-brand transition hover:text-gold"
-                href={item.href}
-                key={item.href}
-                onClick={() => setMenuOpen(false)}
-                style={{ animationDelay: `${index * 0.04}s` }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4 border-t border-border pt-8 text-gold">
-            <a
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-gold"
-              href="https://instagram.com/chayou_jewels"
-              rel="noreferrer"
-              target="_blank"
+        <div
+          className={cn(
+            "relative flex h-full w-[84vw] max-w-[32rem] flex-col border-r border-border bg-bg shadow-editorial transition-transform duration-300 ease-out sm:w-1/2",
+            menuOpen ? "translate-x-0" : "-translate-x-full",
+          )}
+        >
+          <div className="grid h-16 shrink-0 grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-border px-5 sm:px-6">
+            <button
+              aria-label="Close menu"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-brand transition hover:bg-gold-light/35"
+              onClick={() => setMenuOpen(false)}
+              type="button"
             >
-              <AtSign className="h-5 w-5" />
-            </a>
-            <span className="text-xs uppercase tracking-[0.22em] text-muted">
-              @chayou_jewels
-            </span>
+              <X className="h-6 w-6 stroke-[1.4]" />
+            </button>
+            <Link className="flex justify-center" href="/" onClick={() => setMenuOpen(false)}>
+              <LogoMark className="max-w-[10.5rem]" compact />
+            </Link>
+            <div className="justify-self-end">
+              <CartButton />
+            </div>
           </div>
-        </nav>
+
+          <nav className="flex min-h-0 flex-1 flex-col justify-between px-5 py-10 sm:px-6 sm:py-12">
+            <div className="space-y-4">
+              {menuItems.map((item, index) => (
+                <Link
+                  className={cn(
+                    "block font-display text-[28px] font-normal leading-tight text-brand transition-all duration-300 hover:translate-x-1 hover:text-gold sm:text-[32px]",
+                    menuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0",
+                  )}
+                  href={item.href}
+                  key={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    transitionDelay: menuOpen ? `${index * 45}ms` : "0ms",
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-4 border-t border-border pt-8 text-gold">
+              <a
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-gold transition hover:-translate-y-0.5 hover:bg-gold hover:text-brand"
+                href="https://instagram.com/chayou_jewels"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <AtSign className="h-5 w-5" />
+              </a>
+              <span className="text-xs uppercase tracking-[0.22em] text-muted">
+                @chayou_jewels
+              </span>
+            </div>
+          </nav>
+        </div>
       </div>
     </>
   );

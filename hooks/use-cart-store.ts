@@ -7,7 +7,9 @@ import type { CartItem } from "@/lib/types";
 type CartState = {
   isOpen: boolean;
   items: CartItem[];
+  deliveryFeeEnabled: boolean;
   setOpen: (isOpen: boolean) => void;
+  setDeliveryFeeEnabled: (deliveryFeeEnabled: boolean) => void;
   addItem: (item: Omit<CartItem, "qty">, quantity?: number) => void;
   updateQuantity: (type: CartItem["type"], id: number, quantity: number) => void;
   removeItem: (type: CartItem["type"], id: number) => void;
@@ -19,7 +21,9 @@ export const useCartStore = create<CartState>()(
     (set) => ({
       isOpen: false,
       items: [],
+      deliveryFeeEnabled: false,
       setOpen: (isOpen) => set({ isOpen }),
+      setDeliveryFeeEnabled: (deliveryFeeEnabled) => set({ deliveryFeeEnabled }),
       addItem: (item, quantity = 1) =>
         set((state) => {
           const existingItem = state.items.find(
@@ -28,6 +32,7 @@ export const useCartStore = create<CartState>()(
 
           if (existingItem) {
             return {
+              deliveryFeeEnabled: state.deliveryFeeEnabled,
               isOpen: true,
               items: state.items.map((cartItem) =>
                 cartItem.id === item.id && cartItem.type === item.type
@@ -38,27 +43,38 @@ export const useCartStore = create<CartState>()(
           }
 
           return {
+            deliveryFeeEnabled: state.deliveryFeeEnabled,
             isOpen: true,
             items: [...state.items, { ...item, qty: quantity }],
           };
         }),
       updateQuantity: (type, id, quantity) =>
-        set((state) => ({
-          items: state.items
+        set((state) => {
+          const items = state.items
             .map((item) =>
               item.id === id && item.type === type
                 ? { ...item, qty: Math.max(1, quantity) }
                 : item,
             )
-            .filter((item) => item.qty > 0),
-        })),
+            .filter((item) => item.qty > 0);
+
+          return {
+            deliveryFeeEnabled: items.length > 0 ? state.deliveryFeeEnabled : false,
+            items,
+          };
+        }),
       removeItem: (type, id) =>
-        set((state) => ({
-          items: state.items.filter(
+        set((state) => {
+          const items = state.items.filter(
             (item) => !(item.id === id && item.type === type),
-          ),
-        })),
-      clearCart: () => set({ items: [], isOpen: false }),
+          );
+
+          return {
+            deliveryFeeEnabled: items.length > 0 ? state.deliveryFeeEnabled : false,
+            items,
+          };
+        }),
+      clearCart: () => set({ items: [], isOpen: false, deliveryFeeEnabled: false }),
     }),
     {
       name: "chayou-cart",

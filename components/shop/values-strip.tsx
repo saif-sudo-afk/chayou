@@ -1,35 +1,36 @@
 import { Banknote, Gem, ShieldCheck, Sparkles, Truck, Waves } from "lucide-react";
+import { BrandText } from "@/components/shop/brand-text";
 
 const values = [
   {
     icon: Gem,
     title: "Acier inoxydable premium",
-    description: "Une brillance durable inspirée par l'or marocain.",
+    description: "Une brillance durable inspiree par l'or marocain.",
   },
   {
     icon: Waves,
-    title: "Waterproof & résistant",
-    description: "Résiste à l'eau, à la transpiration et au quotidien.",
+    title: "Waterproof & resistant",
+    description: "Resiste a l'eau, a la transpiration et au quotidien.",
   },
   {
     icon: ShieldCheck,
-    title: "Hypoallergénique",
-    description: "Des matériaux doux pour les peaux sensibles.",
+    title: "Hypoallergenique",
+    description: "Des materiaux doux pour les peaux sensibles.",
   },
   {
     icon: Sparkles,
     title: "Port quotidien",
-    description: "Minimal, lumineux, facile à superposer.",
+    description: "Minimal, lumineux, facile a superposer.",
   },
   {
     icon: Truck,
-    title: "Livraison 24 à 48 h",
-    description: "Expédition rapide partout au Maroc, avec suivi simple et direct.",
+    title: "Livraison 24 a 48 h",
+    description: "Expedition rapide partout au Maroc, avec suivi simple et direct.",
   },
   {
     icon: Banknote,
-    title: "Paiement à la livraison",
-    description: "Commandez en toute confiance et réglez à la réception.",
+    title: "Paiement a la livraison",
+    description: "Commandez en toute confiance et reglez a la reception.",
   },
 ];
 
@@ -39,7 +40,7 @@ export function ValuesStrip() {
       <div className="container-shell space-y-8">
         <div className="text-center">
           <h2 className="font-display text-3xl font-light italic text-bg">
-            Pourquoi choisir Chayou
+            Pourquoi choisir <BrandText className="text-3xl text-bg" short />
           </h2>
           <div className="mx-auto mt-4 h-px w-10 bg-gold" />
         </div>

@@ -3,7 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
   SheetContent,
@@ -12,9 +24,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
 import { useCartStore } from "@/hooks/use-cart-store";
-import { formatMAD } from "@/lib/utils";
+import {
+  calculateOrderTotal,
+  formatMAD,
+  getDeliveryFeeAmount,
+} from "@/lib/utils";
 
 const itemTypeLabels: Record<string, string> = {
   product: "Produit",
@@ -22,17 +38,87 @@ const itemTypeLabels: Record<string, string> = {
 };
 
 export function CartDrawer() {
-  const { isOpen, items, setOpen, updateQuantity, removeItem } = useCartStore();
+  const {
+    clearCart,
+    deliveryFeeEnabled,
+    isOpen,
+    items,
+    removeItem,
+    setDeliveryFeeEnabled,
+    setOpen,
+    updateQuantity,
+  } = useCartStore();
   const subtotal = items.reduce((total, item) => total + item.price * item.qty, 0);
+  const deliveryFee = getDeliveryFeeAmount(deliveryFeeEnabled);
+  const total = calculateOrderTotal(subtotal, deliveryFeeEnabled);
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetContent className="flex h-full flex-col" side="right">
-        <SheetHeader>
-          <SheetTitle>Votre Panier</SheetTitle>
-          <SheetDescription>
-            Vérifiez vos bijoux avant la confirmation WhatsApp.
-          </SheetDescription>
+        <SheetHeader className="space-y-4 pr-10">
+          <div className="flex items-start justify-between gap-3">
+            <div className="space-y-1">
+              <SheetTitle>Votre Panier</SheetTitle>
+              <SheetDescription>
+                Verifiez vos bijoux avant la confirmation WhatsApp.
+              </SheetDescription>
+            </div>
+            {items.length > 0 ? (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button className="h-10 gap-2" size="sm" variant="secondary">
+                    <Trash2 className="h-4 w-4" />
+                    Vider
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Vider le panier ?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Cette action supprime tous les articles ajoutes au panier.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-danger text-surface hover:bg-brand"
+                      onClick={clearCart}
+                    >
+                      Vider le panier
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : null}
+          </div>
+
+          {items.length > 0 ? (
+            <div className="rounded-[1.5rem] border border-border bg-bg/70 p-4">
+              <div className="flex items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <p className="font-medium text-brand">Frais de livraison</p>
+                  <p className="text-sm text-muted">
+                    Activez le supplement si vous souhaitez ajouter 25 MAD au total.
+                  </p>
+                </div>
+                <Switch
+                  checked={deliveryFeeEnabled}
+                  onCheckedChange={setDeliveryFeeEnabled}
+                />
+              </div>
+              <span
+                className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs uppercase tracking-[0.18em] ${
+                  deliveryFeeEnabled
+                    ? "bg-gold-light/55 text-brand"
+                    : "bg-success/12 text-success"
+                }`}
+              >
+                {deliveryFeeEnabled
+                  ? `Livraison ajoutee: ${formatMAD(deliveryFee)}`
+                  : "Livraison gratuite active"}
+              </span>
+            </div>
+          ) : null}
         </SheetHeader>
 
         {items.length === 0 ? (
@@ -43,7 +129,7 @@ export function CartDrawer() {
             <div className="space-y-2">
               <p className="font-display text-3xl text-brand">Panier vide</p>
               <p className="text-sm text-muted">
-                Ajoutez une pièce ou un pack pour continuer.
+                Ajoutez une piece ou un pack pour continuer.
               </p>
             </div>
             <Button asChild onClick={() => setOpen(false)}>
@@ -56,10 +142,10 @@ export function CartDrawer() {
               <div className="space-y-4">
                 {items.map((item) => (
                   <div
-                    className="flex gap-4 rounded-lg border border-border bg-bg/65 p-4"
+                    className="flex gap-4 rounded-[1.6rem] border border-border bg-bg/65 p-4"
                     key={`${item.type}-${item.id}`}
                   >
-                    <div className="relative h-24 w-20 overflow-hidden rounded-md bg-surface">
+                    <div className="relative h-24 w-20 overflow-hidden rounded-[1rem] bg-surface">
                       {item.image ? (
                         <Image
                           alt={item.name}
@@ -70,16 +156,20 @@ export function CartDrawer() {
                         />
                       ) : null}
                     </div>
-                    <div className="flex flex-1 flex-col justify-between">
-                      <div>
-                        <p className="font-display text-2xl text-brand">
-                          {item.name}
-                        </p>
-                        <p className="text-xs uppercase tracking-[0.18em] text-muted">
-                          {itemTypeLabels[item.type] ?? item.type}
-                        </p>
+                    <div className="flex flex-1 flex-col gap-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="font-display text-2xl text-brand">{item.name}</p>
+                          <p className="text-xs uppercase tracking-[0.18em] text-muted">
+                            {itemTypeLabels[item.type] ?? item.type}
+                          </p>
+                        </div>
+                        <span className="rounded-full bg-gold-light/40 px-3 py-1 text-sm font-medium text-gold">
+                          {formatMAD(item.price * item.qty)}
+                        </span>
                       </div>
-                      <div className="flex items-center justify-between gap-4">
+
+                      <div className="flex flex-wrap items-center justify-between gap-3">
                         <div className="inline-flex items-center rounded-full border border-border bg-surface p-1">
                           <button
                             className="rounded-full p-2 text-muted transition hover:bg-gold-light/40 hover:text-brand"
@@ -99,18 +189,17 @@ export function CartDrawer() {
                             <Plus className="h-3.5 w-3.5" />
                           </button>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <span className="font-medium text-gold">
-                            {formatMAD(item.price * item.qty)}
-                          </span>
-                          <button
-                            className="rounded-full p-2 text-muted transition hover:bg-brand hover:text-surface"
-                            onClick={() => removeItem(item.type, item.id)}
-                            type="button"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
+
+                        <Button
+                          className="h-10 gap-2 border-danger/25 text-danger hover:bg-danger hover:text-surface"
+                          onClick={() => removeItem(item.type, item.id)}
+                          size="sm"
+                          type="button"
+                          variant="secondary"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          Supprimer
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -119,9 +208,27 @@ export function CartDrawer() {
             </ScrollArea>
 
             <SheetFooter className="border-t border-border pt-6">
-              <div className="flex items-center justify-between text-sm text-muted">
-                <span>Sous-total</span>
-                <span className="font-medium text-text">{formatMAD(subtotal)}</span>
+              <div className="rounded-[1.5rem] bg-bg/70 p-4">
+                <div className="flex items-center justify-between text-sm text-muted">
+                  <span>Sous-total</span>
+                  <span className="font-medium text-text">{formatMAD(subtotal)}</span>
+                </div>
+                <div className="mt-3 flex items-center justify-between text-sm">
+                  <span className={deliveryFeeEnabled ? "text-muted" : "text-success"}>
+                    Livraison
+                  </span>
+                  <span
+                    className={
+                      deliveryFeeEnabled ? "font-medium text-text" : "font-medium text-success"
+                    }
+                  >
+                    {deliveryFeeEnabled ? formatMAD(deliveryFee) : "Gratuite"}
+                  </span>
+                </div>
+                <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-lg">
+                  <span className="text-brand">Total</span>
+                  <span className="font-medium text-text">{formatMAD(total)}</span>
+                </div>
               </div>
               <Button asChild className="w-full" onClick={() => setOpen(false)}>
                 <Link href="/checkout">Passer commande</Link>

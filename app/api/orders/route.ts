@@ -11,6 +11,8 @@ import {
   normalizeMoroccanPhone,
 } from "@/lib/utils";
 
+const ADMIN_WHATSAPP_NUMBER = "0760673116";
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -27,7 +29,12 @@ export async function POST(request: Request) {
     }
 
     const db = getDb();
-    const { items, totalAmount } = await buildCanonicalOrder(parsed.data.items);
+    const { items, deliveryFeeAmount, totalAmount } = await buildCanonicalOrder(
+      parsed.data.items,
+      {
+        includeDeliveryFee: parsed.data.includeDeliveryFee,
+      },
+    );
     const customerPhone = normalizeMoroccanPhone(parsed.data.customerPhone);
 
     const [createdOrder] = await db
@@ -52,7 +59,7 @@ export async function POST(request: Request) {
     revalidatePath("/admin/dashboard");
     revalidatePath("/admin/orders");
 
-    const adminPhone = process.env.ADMIN_WHATSAPP_NUMBER;
+    const adminPhone = ADMIN_WHATSAPP_NUMBER;
     const whatsappUrl = adminPhone
       ? buildWhatsAppUrl(
           adminPhone,
@@ -62,6 +69,7 @@ export async function POST(request: Request) {
             address: parsed.data.customerAddress,
             phone: customerPhone,
             items,
+            deliveryFeeAmount,
             totalAmount,
           }),
         )

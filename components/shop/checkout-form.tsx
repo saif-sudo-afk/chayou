@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCircle } from "lucide-react";
-import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { Controller, useForm } from "react-hook-form";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -19,18 +19,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { MOROCCAN_CITIES } from "@/lib/constants";
-import { formatMAD } from "@/lib/utils";
+import {
+  calculateOrderTotal,
+  formatMAD,
+  getDeliveryFeeAmount,
+} from "@/lib/utils";
 
 const checkoutSchema = z.object({
   customerName: z.string().min(2, "Le nom complet est requis."),
   customerPhone: z
     .string()
-    .regex(/^\+212[67]\d{8}$/, "Utilisez un numéro WhatsApp marocain valide."),
-  customerCity: z.string().min(1, "Sélectionnez une ville."),
-  customerAddress: z.string().min(8, "L'adresse complète est requise."),
+    .regex(/^\+212[67]\d{8}$/, "Utilisez un numero WhatsApp marocain valide."),
+  customerCity: z.string().min(1, "Selectionnez une ville."),
+  customerAddress: z.string().min(8, "L'adresse complete est requise."),
   notes: z.string().optional(),
 });
 
@@ -38,12 +43,19 @@ type CheckoutValues = z.infer<typeof checkoutSchema>;
 
 export function CheckoutForm() {
   const router = useRouter();
-  const { items, clearCart } = useCartStore();
+  const {
+    clearCart,
+    deliveryFeeEnabled,
+    items,
+    setDeliveryFeeEnabled,
+  } = useCartStore();
   const [submitting, setSubmitting] = useState(false);
   const subtotal = useMemo(
     () => items.reduce((total, item) => total + item.price * item.qty, 0),
     [items],
   );
+  const deliveryFee = getDeliveryFeeAmount(deliveryFeeEnabled);
+  const total = calculateOrderTotal(subtotal, deliveryFeeEnabled);
 
   const form = useForm<CheckoutValues>({
     resolver: zodResolver(checkoutSchema),
@@ -81,7 +93,8 @@ export function CheckoutForm() {
             price: item.price,
             image: item.image,
           })),
-          totalAmount: subtotal,
+          includeDeliveryFee: deliveryFeeEnabled,
+          totalAmount: total,
         }),
       });
 
@@ -96,10 +109,10 @@ export function CheckoutForm() {
       }
 
       clearCart();
-      toast.success("Commande reçue. Nous vous confirmerons sur WhatsApp.");
+      toast.success("Commande recue. Nous vous confirmerons sur WhatsApp.");
       router.push(`/confirmation?orderId=${data.orderId}`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Le paiement a échoué.");
+      toast.error(error instanceof Error ? error.message : "Le paiement a echoue.");
     } finally {
       setSubmitting(false);
     }
@@ -113,10 +126,10 @@ export function CheckoutForm() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted">
-            Ajoutez une pièce ou un pack avant de confirmer votre commande.
+            Ajoutez une piece ou un pack avant de confirmer votre commande.
           </p>
           <Button asChild>
-            <Link href="/shop">Retour à la boutique</Link>
+            <Link href="/shop">Retour a la boutique</Link>
           </Button>
         </CardContent>
       </Card>
@@ -127,7 +140,7 @@ export function CheckoutForm() {
     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
       <Card>
         <CardHeader>
-          <CardTitle>Détails de livraison</CardTitle>
+          <CardTitle>Details de livraison</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-5" onSubmit={onSubmit}>
@@ -143,7 +156,7 @@ export function CheckoutForm() {
             <div className="space-y-2">
               <Label className="inline-flex items-center gap-2" htmlFor="customerPhone">
                 <MessageCircle className="h-4 w-4 text-[#25D366]" />
-                Numéro WhatsApp
+                Numero WhatsApp
               </Label>
               <Input
                 id="customerPhone"
@@ -183,7 +196,7 @@ export function CheckoutForm() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="customerAddress">Adresse complète</Label>
+              <Label htmlFor="customerAddress">Adresse complete</Label>
               <Textarea id="customerAddress" {...form.register("customerAddress")} />
               {form.formState.errors.customerAddress ? (
                 <p className="text-sm text-danger">
@@ -195,7 +208,7 @@ export function CheckoutForm() {
               <Label htmlFor="notes">Notes de commande</Label>
               <Textarea
                 id="notes"
-                placeholder="Notes de livraison, repère, horaire préféré..."
+                placeholder="Notes de livraison, repere, horaire prefere..."
                 {...form.register("notes")}
               />
             </div>
@@ -208,12 +221,12 @@ export function CheckoutForm() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Résumé de commande</CardTitle>
+          <CardTitle>Resume de commande</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {items.map((item) => (
             <div
-              className="flex items-center justify-between gap-3 rounded-lg border border-border bg-bg/70 px-4 py-3"
+              className="flex items-center justify-between gap-3 rounded-[1.4rem] border border-border bg-bg/70 px-4 py-3"
               key={`${item.type}-${item.id}`}
             >
               <div>
@@ -229,9 +242,54 @@ export function CheckoutForm() {
               </span>
             </div>
           ))}
-          <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
-            <span className="text-muted">Total</span>
-            <span className="font-medium text-text">{formatMAD(subtotal)}</span>
+
+          <div className="rounded-[1.5rem] border border-border bg-bg/70 p-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="space-y-1">
+                <p className="font-medium text-brand">Frais de livraison</p>
+                <p className="text-sm text-muted">
+                  Activez le supplement pour ajouter 25 MAD au total.
+                </p>
+              </div>
+              <Switch
+                checked={deliveryFeeEnabled}
+                onCheckedChange={setDeliveryFeeEnabled}
+              />
+            </div>
+            <span
+              className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs uppercase tracking-[0.18em] ${
+                deliveryFeeEnabled
+                  ? "bg-gold-light/55 text-brand"
+                  : "bg-success/12 text-success"
+              }`}
+            >
+              {deliveryFeeEnabled
+                ? `Livraison ajoutee: ${formatMAD(deliveryFee)}`
+                : "Livraison gratuite active"}
+            </span>
+          </div>
+
+          <div className="rounded-[1.5rem] bg-bg/55 p-4">
+            <div className="flex items-center justify-between text-sm text-muted">
+              <span>Sous-total</span>
+              <span className="font-medium text-text">{formatMAD(subtotal)}</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-sm">
+              <span className={deliveryFeeEnabled ? "text-muted" : "text-success"}>
+                Livraison
+              </span>
+              <span
+                className={
+                  deliveryFeeEnabled ? "font-medium text-text" : "font-medium text-success"
+                }
+              >
+                {deliveryFeeEnabled ? formatMAD(deliveryFee) : "Gratuite"}
+              </span>
+            </div>
+            <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-lg">
+              <span className="text-brand">Total</span>
+              <span className="font-medium text-text">{formatMAD(total)}</span>
+            </div>
           </div>
         </CardContent>
       </Card>

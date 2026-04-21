@@ -27,7 +27,7 @@ export function AdminSidebar() {
   return (
     <aside className="flex h-full flex-col gap-6 border-r border-gold/25 bg-text p-6 text-surface">
       <Link href="/admin/dashboard">
-        <LogoMark />
+        <LogoMark theme="dark" />
       </Link>
       <div className="space-y-2">
         {navItems.map((item) => {

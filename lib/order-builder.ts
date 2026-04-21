@@ -3,9 +3,21 @@ import { packs, products } from "@/drizzle/schema";
 import { getDb } from "@/lib/db";
 import { getActiveDiscounts } from "@/lib/queries";
 import type { OrderItem } from "@/lib/types";
-import { resolveDiscountPricing, sumOrderItems } from "@/lib/utils";
+import {
+  calculateOrderTotal,
+  getDeliveryFeeAmount,
+  resolveDiscountPricing,
+  sumOrderItems,
+} from "@/lib/utils";
 
-export async function buildCanonicalOrder(items: OrderItem[]) {
+type BuildCanonicalOrderOptions = {
+  includeDeliveryFee?: boolean;
+};
+
+export async function buildCanonicalOrder(
+  items: OrderItem[],
+  options: BuildCanonicalOrderOptions = {},
+) {
   const db = getDb();
   const productIds = items
     .filter((item) => item.type === "product" && item.productId)
@@ -91,8 +103,13 @@ export async function buildCanonicalOrder(items: OrderItem[]) {
     throw new Error("Invalid order item payload.");
   });
 
+  const subtotalAmount = sumOrderItems(canonicalItems);
+  const includeDeliveryFee = options.includeDeliveryFee ?? false;
+
   return {
     items: canonicalItems,
-    totalAmount: sumOrderItems(canonicalItems),
+    subtotalAmount,
+    deliveryFeeAmount: getDeliveryFeeAmount(includeDeliveryFee),
+    totalAmount: calculateOrderTotal(subtotalAmount, includeDeliveryFee),
   };
 }

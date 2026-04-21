@@ -14,6 +14,8 @@ export const ORDER_STATUSES = [
   "cancelled",
 ] as const;
 
+export const DELIVERY_FEE_MAD = 25;
+
 export const MOROCCAN_CITIES = [
   "Casablanca",
   "Rabat",
