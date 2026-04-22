@@ -2,15 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  AtSign,
-  ChevronLeft,
-  ChevronRight,
-  Menu,
-  Search,
-  X,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import { AtSign, Menu, Search, X } from "lucide-react";
+import { useState } from "react";
 import { BrandWordmark } from "@/components/shop/brand-wordmark";
 import { CartButton } from "@/components/shop/cart-button";
 import { cn } from "@/lib/utils";
@@ -38,66 +31,27 @@ export function SiteHeader({
 }: SiteHeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [messageIndex, setMessageIndex] = useState(0);
-
-  useEffect(() => {
-    setMessageIndex(0);
-  }, [bannerMessages]);
-
-  useEffect(() => {
-    if (!bannerEnabled || bannerMessages.length < 2) {
-      return;
-    }
-
-    const timer = window.setInterval(() => {
-      setMessageIndex((current) => (current + 1) % bannerMessages.length);
-    }, 5000);
-
-    return () => window.clearInterval(timer);
-  }, [bannerEnabled, bannerMessages]);
-
-  const currentMessage =
-    bannerMessages[messageIndex] ?? "Enjoy free shipping on all U.S. orders";
-
-  const cycleMessage = (direction: "next" | "previous") => {
-    if (bannerMessages.length < 2) {
-      return;
-    }
-
-    setMessageIndex((current) => {
-      if (direction === "previous") {
-        return current === 0 ? bannerMessages.length - 1 : current - 1;
-      }
-
-      return (current + 1) % bannerMessages.length;
-    });
-  };
+  const fallbackMarquee =
+    "Livraison partout au Maroc · Acier inoxydable premium · Waterproof & anti-ternissement · DM ou WhatsApp pour commander";
+  const configuredCopy =
+    bannerMessages.length > 0 ? bannerMessages.join(" · ") : fallbackMarquee;
+  const bannerCopy =
+    configuredCopy === "Enjoy free shipping on all U.S. orders"
+      ? fallbackMarquee
+      : configuredCopy;
 
   return (
     <>
       <header className="sticky top-0 z-40 bg-bg">
         {bannerEnabled ? (
-          <div className="bg-brand text-bg">
-            <div className="container-shell grid h-11 grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2">
-              <button
-                aria-label="Show previous announcement"
-                className="flex h-9 w-9 items-center justify-center text-bg/90 transition hover:text-bg"
-                onClick={() => cycleMessage("previous")}
-                type="button"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <p className="text-center text-xs tracking-[0.22em] text-bg/95 sm:text-sm sm:tracking-[0.28em]">
-                {currentMessage}
-              </p>
-              <button
-                aria-label="Show next announcement"
-                className="flex h-9 w-9 items-center justify-center justify-self-end text-bg/90 transition hover:text-bg"
-                onClick={() => cycleMessage("next")}
-                type="button"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
+          <div className="overflow-hidden border-b border-bg/10 bg-brand text-bg">
+            <div className="flex h-12 items-center overflow-hidden">
+              <div className="flex min-w-max animate-marquee whitespace-nowrap text-sm font-light tracking-[0.01em] text-bg/95">
+                <span className="px-8">{bannerCopy}</span>
+                <span className="px-8">{bannerCopy}</span>
+                <span className="px-8">{bannerCopy}</span>
+                <span className="px-8">{bannerCopy}</span>
+              </div>
             </div>
           </div>
         ) : null}
@@ -177,7 +131,7 @@ export function SiteHeader({
                 return (
                   <Link
                     className={cn(
-                      "block text-[1.65rem] font-light leading-none text-brand transition hover:translate-x-1 hover:text-brand/70",
+                      "block text-[1.35rem] font-light leading-none tracking-[0.04em] text-brand transition hover:translate-x-1 hover:text-brand/70 sm:text-[1.45rem]",
                       isActive && "text-brand/55",
                     )}
                     href={item.href}

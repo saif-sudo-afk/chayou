@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeroSection } from "@/components/shop/hero-section";
 import { ProductCard } from "@/components/shop/product-card";
+import { ValuesStrip } from "@/components/shop/values-strip";
 import { Button } from "@/components/ui/button";
 import { getHomePageNewArrivals } from "@/lib/queries";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -44,6 +45,8 @@ export default async function HomePage() {
           </Button>
         </div>
       </section>
+
+      <ValuesStrip />
     </div>
   );
 }

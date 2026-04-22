@@ -1,68 +1,58 @@
-import { Banknote, Gem, ShieldCheck, Sparkles, Truck, Waves } from "lucide-react";
-import { BrandText } from "@/components/shop/brand-text";
+import { Gem, ShieldCheck, Sparkles, Waves } from "lucide-react";
 
 const values = [
   {
     icon: Gem,
-    title: "Acier inoxydable premium",
+    title: "ACIER INOXYDABLE PREMIUM",
     description: "Une brillance durable inspiree par l'or marocain.",
   },
   {
     icon: Waves,
-    title: "Waterproof & resistant",
-    description: "Resiste a l'eau, a la transpiration et au quotidien.",
+    title: "WATERPROOF & RESISTANT",
+    description: "Resiste a l'eau, la transpiration et le quotidien.",
   },
   {
     icon: ShieldCheck,
-    title: "Hypoallergenique",
+    title: "HYPOALLERGENIQUE",
     description: "Des materiaux doux pour les peaux sensibles.",
   },
   {
     icon: Sparkles,
-    title: "Port quotidien",
+    title: "PORT QUOTIDIEN",
     description: "Minimal, lumineux, facile a superposer.",
   },
-  {
-    icon: Truck,
-    title: "Livraison 24 a 48 h",
-    description: "Expedition rapide partout au Maroc, avec suivi simple et direct.",
-  },
-  {
-    icon: Banknote,
-    title: "Paiement a la livraison",
-    description: "Commandez en toute confiance et reglez a la reception.",
-  },
-];
+] as const;
 
 export function ValuesStrip() {
   return (
-    <section className="bg-brand py-16">
-      <div className="container-shell space-y-8">
-        <div className="text-center">
-          <h2 className="font-display text-3xl font-light italic text-bg">
-            Pourquoi choisir <BrandText className="text-3xl text-bg" short />
+    <section className="bg-brand py-18 sm:py-20">
+      <div className="container-shell space-y-12">
+        <div className="space-y-4 text-center">
+          <h2 className="font-display text-[2.6rem] font-light italic tracking-[0.02em] text-bg sm:text-[3rem]">
+            Pourquoi nous choisir
           </h2>
-          <div className="mx-auto mt-4 h-px w-10 bg-gold" />
+          <div className="mx-auto h-px w-14 bg-gold" />
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {values.map((value) => {
             const Icon = value.icon;
 
             return (
-              <div
-                className="rounded-lg border border-gold/30 bg-bg/10 p-5 text-center shadow-[0_14px_34px_rgba(0,0,0,0.12)]"
+              <article
+                className="rounded-2xl border border-gold/45 bg-[rgba(243,236,220,0.08)] px-8 py-8 text-center shadow-[0_18px_45px_rgba(0,0,0,0.08)]"
                 key={value.title}
               >
-                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-gold/50 text-gold">
-                  <Icon className="h-5 w-5 stroke-[1.4]" />
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-gold/55 text-gold">
+                  <Icon className="h-7 w-7 stroke-[1.35]" />
                 </div>
-                <h3 className="mt-4 font-sans text-sm font-medium uppercase tracking-[0.08em] text-bg">
+                <h3 className="mt-6 font-sans text-[1.05rem] font-semibold tracking-[0.09em] text-bg">
                   {value.title}
                 </h3>
-                <p className="mt-2 text-xs font-light leading-6 text-border">
+                <p className="mt-5 text-[0.95rem] font-light leading-9 text-bg/88">
                   {value.description}
                 </p>
-              </div>
+              </article>
             );
           })}
         </div>
