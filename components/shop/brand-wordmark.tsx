@@ -28,7 +28,7 @@ export function BrandWordmark({
       className={cn(
         "inline-flex flex-col leading-none",
         align === "center" ? "items-center text-center" : "items-start text-left",
-        isLight ? "text-white" : "text-neutral-950",
+        isLight ? "text-bg" : "text-brand",
         className,
       )}
     >
@@ -45,7 +45,7 @@ export function BrandWordmark({
         className={cn(
           "mt-2 uppercase tracking-[0.48em]",
           compact ? "text-[0.52rem]" : "text-[0.62rem] sm:text-[0.68rem]",
-          isLight ? "text-white/85" : "text-neutral-950/80",
+          isLight ? "text-bg/85" : "text-brand/80",
         )}
         style={subLineStyle}
       >

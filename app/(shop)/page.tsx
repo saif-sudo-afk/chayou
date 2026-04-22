@@ -10,15 +10,15 @@ export default async function HomePage() {
   const newArrivals = await getHomePageNewArrivals(siteSettings);
 
   return (
-    <div className="bg-white pb-20">
+    <div className="bg-bg pb-20">
       <HeroSection hero={siteSettings.hero} />
 
       <section id="new-arrivals" className="container-shell space-y-8 py-16 sm:py-20">
         <div className="space-y-2 text-center">
-          <h2 className="text-3xl font-light tracking-[0.08em] text-neutral-950 sm:text-4xl">
+          <h2 className="text-3xl font-light tracking-[0.08em] text-brand sm:text-4xl">
             New Arrivals
           </h2>
-          <div className="mx-auto h-px w-14 bg-neutral-950/20" />
+          <div className="mx-auto h-px w-14 bg-brand/20" />
         </div>
 
         {newArrivals.length > 0 ? (
@@ -28,7 +28,7 @@ export default async function HomePage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-neutral-200 px-6 py-16 text-center text-sm tracking-[0.08em] text-neutral-500">
+          <div className="rounded-2xl border border-dashed border-brand/15 bg-surface/60 px-6 py-16 text-center text-sm tracking-[0.08em] text-muted">
             No products are available yet.
           </div>
         )}
@@ -36,7 +36,7 @@ export default async function HomePage() {
         <div className="flex justify-center">
           <Button asChild variant="ghost">
             <Link
-              className="text-xs uppercase tracking-[0.34em] text-neutral-950 hover:text-neutral-600"
+              className="text-xs uppercase tracking-[0.34em] text-brand hover:text-brand/70"
               href="/shop"
             >
               View All

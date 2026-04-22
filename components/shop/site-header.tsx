@@ -75,24 +75,24 @@ export function SiteHeader({
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white">
+      <header className="sticky top-0 z-40 bg-bg">
         {bannerEnabled ? (
-          <div className="bg-black text-white">
+          <div className="bg-brand text-bg">
             <div className="container-shell grid h-11 grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2">
               <button
                 aria-label="Show previous announcement"
-                className="flex h-9 w-9 items-center justify-center text-white/90 transition hover:text-white"
+                className="flex h-9 w-9 items-center justify-center text-bg/90 transition hover:text-bg"
                 onClick={() => cycleMessage("previous")}
                 type="button"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <p className="text-center text-xs tracking-[0.22em] text-white/95 sm:text-sm sm:tracking-[0.28em]">
+              <p className="text-center text-xs tracking-[0.22em] text-bg/95 sm:text-sm sm:tracking-[0.28em]">
                 {currentMessage}
               </p>
               <button
                 aria-label="Show next announcement"
-                className="flex h-9 w-9 items-center justify-center justify-self-end text-white/90 transition hover:text-white"
+                className="flex h-9 w-9 items-center justify-center justify-self-end text-bg/90 transition hover:text-bg"
                 onClick={() => cycleMessage("next")}
                 type="button"
               >
@@ -102,11 +102,11 @@ export function SiteHeader({
           </div>
         ) : null}
 
-        <div className="border-b border-black/10">
+        <div className="border-b border-brand/10 bg-bg">
           <div className="container-shell grid h-24 grid-cols-[3rem_1fr_5rem] items-center">
             <button
               aria-label="Open menu"
-              className="flex h-11 w-11 items-center justify-center text-neutral-950 transition hover:bg-black/5"
+              className="flex h-11 w-11 items-center justify-center text-brand transition hover:bg-brand/5"
               onClick={() => setMenuOpen(true)}
               type="button"
             >
@@ -124,12 +124,12 @@ export function SiteHeader({
             <div className="flex items-center justify-self-end">
               <Link
                 aria-label="Search catalog"
-                className="flex h-11 w-11 items-center justify-center text-neutral-950 transition hover:bg-black/5"
+                className="flex h-11 w-11 items-center justify-center text-brand transition hover:bg-brand/5"
                 href="/shop"
               >
                 <Search className="h-5 w-5 stroke-[1.6]" />
               </Link>
-              <CartButton className="text-neutral-950 hover:bg-black/5" />
+              <CartButton className="text-brand hover:bg-brand/5" />
             </div>
           </div>
         </div>
@@ -143,22 +143,22 @@ export function SiteHeader({
       >
         <button
           aria-label="Close menu overlay"
-          className="absolute inset-0 bg-black/28 backdrop-blur-sm"
+          className="absolute inset-0 bg-brand/20 backdrop-blur-sm"
           onClick={() => setMenuOpen(false)}
           type="button"
         />
 
         <div
           className={cn(
-            "relative flex h-full w-[82vw] max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300",
+            "relative flex h-full w-[82vw] max-w-sm flex-col bg-bg shadow-2xl transition-transform duration-300",
             menuOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >
-          <div className="flex items-center justify-between border-b border-black/10 px-5 py-5">
+          <div className="flex items-center justify-between border-b border-brand/10 px-5 py-5">
             <BrandWordmark align="left" className="scale-[0.88] origin-left" compact />
             <button
               aria-label="Close menu"
-              className="flex h-10 w-10 items-center justify-center text-neutral-950 transition hover:bg-black/5"
+              className="flex h-10 w-10 items-center justify-center text-brand transition hover:bg-brand/5"
               onClick={() => setMenuOpen(false)}
               type="button"
             >
@@ -177,8 +177,8 @@ export function SiteHeader({
                 return (
                   <Link
                     className={cn(
-                      "block text-[1.65rem] font-light leading-none text-neutral-950 transition hover:translate-x-1 hover:text-neutral-600",
-                      isActive && "text-neutral-500",
+                      "block text-[1.65rem] font-light leading-none text-brand transition hover:translate-x-1 hover:text-brand/70",
+                      isActive && "text-brand/55",
                     )}
                     href={item.href}
                     key={item.href}
@@ -190,9 +190,9 @@ export function SiteHeader({
               })}
             </div>
 
-            <div className="space-y-4 border-t border-black/10 pt-6">
+            <div className="space-y-4 border-t border-brand/10 pt-6">
               <a
-                className="inline-flex items-center gap-2 text-sm tracking-[0.18em] text-neutral-600 transition hover:text-neutral-950"
+                className="inline-flex items-center gap-2 text-sm tracking-[0.18em] text-brand/65 transition hover:text-brand"
                 href="https://instagram.com/chayou_jewels"
                 rel="noreferrer"
                 target="_blank"

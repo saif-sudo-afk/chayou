@@ -94,7 +94,7 @@ export function ShopCatalog({
         }
         value={currentCategory}
       >
-        <TabsList className="flex h-auto flex-wrap justify-center gap-2 rounded-none bg-stone-100 p-1">
+        <TabsList className="flex h-auto flex-wrap justify-center gap-2 rounded-none border-brand/10 bg-bg/70 p-1">
           <TabsTrigger value="all">All</TabsTrigger>
           {PRODUCT_CATEGORIES.map((item) => (
             <TabsTrigger key={item} value={item}>
@@ -116,7 +116,7 @@ export function ShopCatalog({
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-border bg-surface px-6 py-16 text-center text-sm tracking-[0.08em] text-muted">
+        <div className="rounded-2xl border border-dashed border-brand/15 bg-surface/70 px-6 py-16 text-center text-sm tracking-[0.08em] text-muted">
           No products match this category yet.
         </div>
       )}
@@ -146,18 +146,19 @@ export function ShopCatalog({
               return (
                 <div className="flex items-center gap-2" key={page}>
                   {shouldShowGap ? (
-                    <span className="px-1 text-sm text-muted">…</span>
+                    <span className="px-1 text-sm text-muted">...</span>
                   ) : null}
                   <Button
                     className={cn(
                       "min-w-10",
-                      page === currentPage && "border-gold bg-gold text-brand",
+                      page === currentPage &&
+                        "border-brand bg-brand text-bg hover:bg-brand",
                     )}
                     disabled={isPending}
                     onClick={() => navigate({ page })}
                     size="sm"
                     type="button"
-                    variant={page === currentPage ? "default" : "secondary"}
+                    variant="secondary"
                   >
                     {page}
                   </Button>
