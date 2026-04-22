@@ -11,12 +11,14 @@ import {
 } from "drizzle-orm";
 import { discounts, orders, packs, products } from "@/drizzle/schema";
 import { getDb } from "@/lib/db";
+import type { SiteSettings } from "@/lib/site-settings";
 import type {
   CatalogPack,
   CatalogProduct,
   DiscountRow,
   OrderStatus,
   PackRow,
+  ProductCategory,
   ProductRow,
 } from "@/lib/types";
 import { isDiscountActive, resolveDiscountPricing } from "@/lib/utils";
@@ -85,6 +87,52 @@ export async function getStorefrontProducts(limit?: number) {
   return productRows.map((product) => withProductPricing(product, discountRows));
 }
 
+export async function getPaginatedStorefrontProducts(params: {
+  category?: ProductCategory;
+  page: number;
+  perPage: number;
+}) {
+  const db = getDb();
+  const clauses = [eq(products.isActive, true)];
+
+  if (params.category) {
+    clauses.push(eq(products.category, params.category));
+  }
+
+  const whereClause = clauses.length === 1 ? clauses[0] : and(...clauses);
+  const [countRows, discountRows] = await Promise.all([
+    db
+      .select({
+        count: sql<number>`count(*)`,
+      })
+      .from(products)
+      .where(whereClause),
+    getActiveDiscounts(),
+  ]);
+
+  const totalCount = Number(countRows[0]?.count ?? 0);
+  const totalPages = Math.max(1, Math.ceil(totalCount / params.perPage));
+  const currentPage = Math.min(Math.max(params.page, 1), totalPages);
+  const offset = (currentPage - 1) * params.perPage;
+  const productRows =
+    totalCount > 0
+      ? await db
+          .select()
+          .from(products)
+          .where(whereClause)
+          .orderBy(desc(products.createdAt))
+          .limit(params.perPage)
+          .offset(offset)
+      : [];
+
+  return {
+    products: productRows.map((product) => withProductPricing(product, discountRows)),
+    totalCount,
+    totalPages,
+    currentPage,
+  };
+}
+
 export async function getStorefrontPacks() {
   const db = getDb();
   const [packRows, productRows, discountRows] = await Promise.all([
@@ -120,6 +168,25 @@ export async function getHomePageData() {
     featuredProducts,
     activePacks,
   };
+}
+
+export async function getHomePageNewArrivals(settings: SiteSettings) {
+  if (
+    settings.newArrivals.mode === "manual" &&
+    settings.newArrivals.productIds.length > 0
+  ) {
+    const [productRows, discountRows] = await Promise.all([
+      getProductsByIds(settings.newArrivals.productIds, { activeOnly: true }),
+      getActiveDiscounts(),
+    ]);
+    const orderedProducts = settings.newArrivals.productIds
+      .map((id) => productRows.find((product) => product.id === id))
+      .filter((product): product is ProductRow => Boolean(product));
+
+    return orderedProducts.map((product) => withProductPricing(product, discountRows));
+  }
+
+  return getStorefrontProducts(settings.newArrivals.count);
 }
 
 export async function getAdminDashboardData() {
@@ -296,11 +363,24 @@ export async function getDiscountTargets() {
   };
 }
 
-export async function getProductsByIds(ids: number[]) {
+export async function getProductsByIds(
+  ids: number[],
+  options?: {
+    activeOnly?: boolean;
+  },
+) {
   if (ids.length === 0) {
     return [];
   }
 
   const db = getDb();
-  return db.select().from(products).where(inArray(products.id, ids));
+  const clauses = [inArray(products.id, ids)];
+
+  if (options?.activeOnly) {
+    clauses.push(eq(products.isActive, true));
+  }
+
+  const whereClause = clauses.length === 1 ? clauses[0] : and(...clauses);
+
+  return db.select().from(products).where(whereClause);
 }

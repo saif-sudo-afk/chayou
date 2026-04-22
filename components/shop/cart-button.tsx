@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { cn } from "@/lib/utils";
 
-export function CartButton() {
+type CartButtonProps = {
+  className?: string;
+};
+
+export function CartButton({ className }: CartButtonProps) {
   const items = useCartStore((state) => state.items);
   const setOpen = useCartStore((state) => state.setOpen);
   const [mounted, setMounted] = useState(false);
@@ -32,7 +36,7 @@ export function CartButton() {
   return (
     <Button
       aria-label="Open cart"
-      className={cn("relative text-brand", pulse && "animate-pulse-cart")}
+      className={cn("relative text-brand", pulse && "animate-pulse-cart", className)}
       size="icon"
       variant="ghost"
       onClick={() => setOpen(true)}

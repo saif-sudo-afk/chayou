@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DollarSign, Gem, PackageCheck, ShoppingBag } from "lucide-react";
 import { DeliverySettingsForm } from "@/components/admin/delivery-settings-form";
+import { HomepageShopSettingsForm } from "@/components/admin/homepage-shop-settings-form";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatsCard } from "@/components/admin/stats-card";
 import { StatusBadge } from "@/components/admin/status-badge";
@@ -14,14 +15,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAdminDashboardData } from "@/lib/queries";
+import { getAdminDashboardData, getProductOptions } from "@/lib/queries";
+import { getSiteSettings } from "@/lib/site-settings";
 import { getStoreSettings } from "@/lib/store-settings";
 import { formatDateTime, formatMAD } from "@/lib/utils";
 
 export default async function AdminDashboardPage() {
-  const [{ stats, recentOrders }, settings] = await Promise.all([
+  const [{ stats, recentOrders }, storeSettings, siteSettings, productOptions] =
+    await Promise.all([
     getAdminDashboardData(),
     getStoreSettings(),
+    getSiteSettings(),
+    getProductOptions(),
   ]);
 
   return (
@@ -60,9 +65,16 @@ export default async function AdminDashboardPage() {
 
       <Card>
         <CardContent className="pt-6">
-          <DeliverySettingsForm freeDeliveryEnabled={settings.freeDeliveryEnabled} />
+          <DeliverySettingsForm
+            freeDeliveryEnabled={storeSettings.freeDeliveryEnabled}
+          />
         </CardContent>
       </Card>
+
+      <HomepageShopSettingsForm
+        initialSettings={siteSettings}
+        productOptions={productOptions}
+      />
 
       <Card>
         <CardContent className="space-y-6 pt-6">

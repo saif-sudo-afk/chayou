@@ -105,3 +105,27 @@ export const orderStatusSchema = z.object({
 export const storeSettingsSchema = z.object({
   freeDeliveryEnabled: z.boolean(),
 });
+
+export const siteSettingsSchema = z.object({
+  banner: z.object({
+    enabled: z.boolean(),
+    messages: z.array(z.string().trim().min(1).max(160)).min(1).max(10),
+  }),
+  hero: z.object({
+    backgroundImageUrl: z.string().trim().min(1).max(500),
+    headline: z.string().trim().min(1).max(140),
+    primaryButtonLabel: z.string().trim().min(1).max(40),
+    primaryButtonLink: z.string().trim().min(1).max(255),
+    secondaryButtonLabel: z.string().trim().min(1).max(40),
+    secondaryButtonLink: z.string().trim().min(1).max(255),
+  }),
+  newArrivals: z.object({
+    mode: z.enum(["latest", "manual"]),
+    count: z.coerce.number().int().min(1).max(24),
+    productIds: z.array(z.number().int().positive()).max(24),
+  }),
+  shop: z.object({
+    productsPerPage: z.coerce.number().int().min(1).max(48),
+    mobileColumns: z.union([z.literal(1), z.literal(2)]),
+  }),
+});

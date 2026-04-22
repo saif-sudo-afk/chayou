@@ -10,7 +10,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { AdminSignOutButton } from "@/components/admin/admin-sign-out-button";
-import { LogoMark } from "@/components/shop/logo-mark";
+import { BrandWordmark } from "@/components/shop/brand-wordmark";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -27,7 +27,7 @@ export function AdminSidebar() {
   return (
     <aside className="flex h-full flex-col gap-6 border-r border-gold/25 bg-text p-6 text-surface">
       <Link href="/admin/dashboard">
-        <LogoMark className="w-fit" />
+        <BrandWordmark align="left" className="w-fit" compact tone="light" />
       </Link>
       <div className="space-y-2">
         {navItems.map((item) => {

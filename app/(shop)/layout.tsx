@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { CartDrawer } from "@/components/shop/cart-drawer";
 import { SiteFooter } from "@/components/shop/site-footer";
 import { SiteHeader } from "@/components/shop/site-header";
+import { getSiteSettings } from "@/lib/site-settings";
 import { getStoreSettings } from "@/lib/store-settings";
 
 export default async function ShopLayout({
@@ -11,14 +12,20 @@ export default async function ShopLayout({
 }: {
   children: ReactNode;
 }) {
-  const settings = await getStoreSettings();
+  const [storeSettings, siteSettings] = await Promise.all([
+    getStoreSettings(),
+    getSiteSettings(),
+  ]);
 
   return (
     <div className="min-h-screen">
-      <SiteHeader />
+      <SiteHeader
+        bannerEnabled={siteSettings.banner.enabled}
+        bannerMessages={siteSettings.banner.messages}
+      />
       <main>{children}</main>
       <SiteFooter />
-      <CartDrawer freeDeliveryEnabled={settings.freeDeliveryEnabled} />
+      <CartDrawer freeDeliveryEnabled={storeSettings.freeDeliveryEnabled} />
     </div>
   );
 }

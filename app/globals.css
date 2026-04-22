@@ -88,10 +88,10 @@ body {
   }
 
   .brand-wordmark {
-    color: #4e0200;
-    font-family: "Cormorant Garamond", serif;
-    font-weight: 600;
-    letter-spacing: 0.18em;
+    color: currentColor;
+    font-family: "TAN - PEARL", "Cormorant Garamond", serif;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 

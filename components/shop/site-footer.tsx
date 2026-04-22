@@ -1,5 +1,5 @@
 import { AtSign, Globe2, Music2, Phone } from "lucide-react";
-import { LogoMark } from "@/components/shop/logo-mark";
+import { BrandWordmark } from "@/components/shop/brand-wordmark";
 import { BRAND } from "@/lib/constants";
 import { buildWhatsAppUrl } from "@/lib/utils";
 
@@ -15,7 +15,7 @@ export function SiteFooter() {
     <footer id="contact" className="bg-text text-border">
       <div className="container-shell grid gap-10 py-12 md:grid-cols-[1.3fr_1fr]">
         <div className="space-y-4">
-          <LogoMark className="w-fit" />
+          <BrandWordmark align="left" className="w-fit" tone="light" />
           <p className="max-w-sm text-sm font-light leading-7 text-border/90">
             Modern, minimal, and durable jewelry with warm editorial tones for
             everyday Moroccan light.
@@ -66,7 +66,7 @@ export function SiteFooter() {
       <div className="border-t border-border/20 py-4 text-center text-[11px] font-light text-muted">
         <span className="brand-wordmark text-[11px] text-border">CHAYOU JEWELS</span>
         <span className="px-2">·</span>
-        Maroc
+        Morocco
       </div>
     </footer>
   );
