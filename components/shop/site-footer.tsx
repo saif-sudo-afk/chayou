@@ -17,14 +17,13 @@ export function SiteFooter() {
         <div className="space-y-4">
           <BrandWordmark align="left" className="w-fit" tone="light" />
           <p className="max-w-sm text-sm font-light leading-7 text-border/90">
-            Modern, minimal, and durable jewelry with warm editorial tones for
-            everyday Moroccan light.
+            Des bijoux modernes et minimalistes, pensés pour durer, inspirés par la lumière marocaine.
           </p>
         </div>
 
         <div className="space-y-5 md:text-right">
           <div className="space-y-2 text-sm font-light text-border">
-            <p>Email: chyoujewels@gmail.com</p>
+            <p>Email: chayoujewels@gmail.com</p>
             <a
               className="inline-flex items-center gap-2 text-gold transition hover:text-surface"
               href={whatsappHref}
@@ -66,7 +65,7 @@ export function SiteFooter() {
       <div className="border-t border-border/20 py-4 text-center text-[11px] font-light text-muted">
         <span className="brand-wordmark text-[11px] text-border">CHAYOU JEWELS</span>
         <span className="px-2">·</span>
-        Morocco
+        maroc
       </div>
     </footer>
   );
