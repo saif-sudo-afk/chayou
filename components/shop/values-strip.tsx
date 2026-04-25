@@ -4,22 +4,22 @@ const values = [
   {
     icon: Gem,
     title: "ACIER INOXYDABLE PREMIUM",
-    description: "Une brillance durable inspiree par l'or marocain.",
+    description: "Une brillance durable, inspirée de l’or marocain.",
   },
   {
     icon: Waves,
-    title: "WATERPROOF & RESISTANT",
-    description: "Resiste a l'eau, la transpiration et le quotidien.",
+    title: "RÉSISTANT À L’EAU ET DURABLE",
+    description: "Résiste à l’eau, à la transpiration et à l’usure du quotidien.",
   },
   {
     icon: ShieldCheck,
-    title: "HYPOALLERGENIQUE",
-    description: "Des materiaux doux pour les peaux sensibles.",
+    title: "HYPOALLERGÉNIQUE",
+    description: "Conçu avec des matériaux respectueux des peaux sensibles.",
   },
   {
     icon: Sparkles,
-    title: "PORT QUOTIDIEN",
-    description: "Minimal, lumineux, facile a superposer.",
+    title: "LIVRAISON RAPIDE",
+    description: "Expédition rapide partout au Maroc sous 24 à 48 h.",
   },
 ] as const;
 
