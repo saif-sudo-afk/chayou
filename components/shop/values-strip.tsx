@@ -28,7 +28,7 @@ export function ValuesStrip() {
     <section className="bg-brand py-18 sm:py-20">
       <div className="container-shell space-y-12">
         <div className="space-y-4 text-center">
-          <h2 className="font-display text-[2.6rem] font-light italic tracking-[0.02em] text-bg sm:text-[3rem]">
+          <h2 className="font-display text-[2.6rem] font-light italic tracking-[0.02em] text-white sm:text-[3rem]">
             Pourquoi nous choisir
           </h2>
           <div className="mx-auto h-px w-14 bg-gold" />
@@ -40,16 +40,16 @@ export function ValuesStrip() {
 
             return (
               <article
-                className="rounded-2xl border border-gold/45 bg-[rgb(243, 236, 220)] px-8 py-8 text-center shadow-[0_18px_45px_rgba(0,0,0,0.08)]"
+                className="rounded-2xl border border-gold/45 bg-white/10 px-8 py-8 text-center shadow-[0_18px_45px_rgba(0,0,0,0.08)]"
                 key={value.title}
               >
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-gold/55 text-gold">
                   <Icon className="h-7 w-7 stroke-[1.35]" />
                 </div>
-                <h3 className="mt-6 font-sans text-[1.05rem] font-semibold tracking-[0.09em] text-bg">
+                <h3 className="mt-6 font-sans text-[1.05rem] font-semibold tracking-[0.09em] text-white">
                   {value.title}
                 </h3>
-                <p className="mt-5 text-[0.95rem] font-light leading-9 text-bg/88">
+                <p className="mt-5 text-[0.95rem] font-light leading-9 text-white/85">
                   {value.description}
                 </p>
               </article>
