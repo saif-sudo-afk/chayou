@@ -72,6 +72,7 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
       return;
     }
 
+    const whatsappWindow = window.open("", "_blank");
     setSubmitting(true);
 
     try {
@@ -97,17 +98,28 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
       const data = await response.json();
 
       if (!response.ok) {
+        whatsappWindow?.close();
         throw new Error(data.message ?? "Impossible d'envoyer votre commande.");
       }
 
       if (data.whatsappUrl) {
-        window.open(data.whatsappUrl, "_blank", "noopener,noreferrer");
+        if (whatsappWindow) {
+          whatsappWindow.location.href = data.whatsappUrl;
+        } else {
+          clearCart();
+          toast.success("Commande recue. WhatsApp va s'ouvrir pour confirmer.");
+          window.location.href = data.whatsappUrl;
+          return;
+        }
+      } else {
+        whatsappWindow?.close();
       }
 
       clearCart();
       toast.success("Commande recue. Nous vous confirmerons sur WhatsApp.");
       router.push(`/confirmation?orderId=${data.orderId}`);
     } catch (error) {
+      whatsappWindow?.close();
       toast.error(error instanceof Error ? error.message : "Le paiement a echoue.");
     } finally {
       setSubmitting(false);

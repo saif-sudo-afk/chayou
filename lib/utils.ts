@@ -140,6 +140,7 @@ export function calculateOrderTotal(
 }
 
 export function buildAdminOrderMessage(params: {
+  id: number;
   name: string;
   city: string;
   address: string;
@@ -160,11 +161,12 @@ export function buildAdminOrderMessage(params: {
     `🛍️ New order from ${params.name}`,
     `📍 ${params.city} - ${params.address}`,
     `📱 ${params.phone}`,
+    `Order: #${params.id}`,
     `Items: ${itemsLine}`,
     `Delivery: ${deliveryLine}`,
     `Total: ${params.totalAmount} MAD`,
     "—",
-    "Please confirm your order!",
+    "Please contact the customer to confirm this order.",
   ].join("\n");
 }
 

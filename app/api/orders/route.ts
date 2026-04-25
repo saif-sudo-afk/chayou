@@ -11,7 +11,7 @@ import {
   normalizeMoroccanPhone,
 } from "@/lib/utils";
 
-const ADMIN_WHATSAPP_NUMBER = "0760673116";
+const FALLBACK_ADMIN_WHATSAPP_NUMBER = "0760673116";
 
 export async function POST(request: Request) {
   try {
@@ -57,11 +57,13 @@ export async function POST(request: Request) {
     revalidatePath("/admin/dashboard");
     revalidatePath("/admin/orders");
 
-    const adminPhone = ADMIN_WHATSAPP_NUMBER;
+    const adminPhone =
+      process.env.ADMIN_WHATSAPP_NUMBER?.trim() || FALLBACK_ADMIN_WHATSAPP_NUMBER;
     const whatsappUrl = adminPhone
       ? buildWhatsAppUrl(
           adminPhone,
           buildAdminOrderMessage({
+            id: createdOrder.id,
             name: parsed.data.customerName,
             city: parsed.data.customerCity,
             address: parsed.data.customerAddress,
