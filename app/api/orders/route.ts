@@ -10,6 +10,7 @@ import {
   buildWhatsAppUrl,
   normalizeMoroccanPhone,
 } from "@/lib/utils";
+import { sendWhatsAppTextMessage } from "@/lib/whatsapp";
 
 const FALLBACK_ADMIN_WHATSAPP_NUMBER = "0760673116";
 
@@ -59,23 +60,41 @@ export async function POST(request: Request) {
 
     const adminPhone =
       process.env.ADMIN_WHATSAPP_NUMBER?.trim() || FALLBACK_ADMIN_WHATSAPP_NUMBER;
+    const adminMessage = buildAdminOrderMessage({
+      id: createdOrder.id,
+      name: parsed.data.customerName,
+      city: parsed.data.customerCity,
+      address: parsed.data.customerAddress,
+      phone: customerPhone,
+      items,
+      deliveryFeeAmount,
+      totalAmount,
+    });
+    const adminNotification = adminPhone
+      ? await sendWhatsAppTextMessage({
+          to: adminPhone,
+          body: adminMessage,
+        })
+      : ({ sent: false, error: "ADMIN_WHATSAPP_NUMBER is not configured." } as const);
+
+    if (!adminNotification.sent) {
+      console.error("Failed to send admin WhatsApp order notification:", {
+        orderId: createdOrder.id,
+        error: adminNotification.error,
+      });
+    }
+
     const whatsappUrl = adminPhone
       ? buildWhatsAppUrl(
           adminPhone,
-          buildAdminOrderMessage({
-            id: createdOrder.id,
-            name: parsed.data.customerName,
-            city: parsed.data.customerCity,
-            address: parsed.data.customerAddress,
-            phone: customerPhone,
-            totalAmount,
-          }),
+          adminMessage,
         )
       : null;
 
     return NextResponse.json({
       orderId: createdOrder.id,
       totalAmount: createdOrder.totalAmount,
+      adminNotificationSent: adminNotification.sent,
       whatsappUrl,
     });
   } catch (error) {
