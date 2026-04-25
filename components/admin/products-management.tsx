@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { PRODUCT_CATEGORY_LABELS } from "@/lib/constants";
 import type { CatalogProduct } from "@/lib/types";
 import { formatMAD } from "@/lib/utils";
 
@@ -85,7 +86,7 @@ export function ProductsManagement({ products }: ProductsManagementProps) {
           <div>
             <p className="font-medium text-text">{row.original.name}</p>
             <p className="text-xs uppercase tracking-[0.16em] text-muted">
-              {row.original.category}
+              {PRODUCT_CATEGORY_LABELS[row.original.category]}
             </p>
           </div>
         </div>

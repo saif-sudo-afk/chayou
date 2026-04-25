@@ -29,6 +29,13 @@
       "when": 1776895137032,
       "tag": "0003_bright_tempest",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1777143927450,
+      "tag": "0004_certain_nightshade",
+      "breakpoints": true
     }
   ]
 }

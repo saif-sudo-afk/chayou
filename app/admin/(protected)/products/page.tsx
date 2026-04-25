@@ -8,7 +8,7 @@ export default async function AdminProductsPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        description="Manage product pricing, availability, imagery, and stock."
+        description="Manage product pricing, availability, imagery, stock, and Small Menu placement."
         title="Products"
       />
       <ProductsManagement products={products} />

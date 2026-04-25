@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
-import { PRODUCT_CATEGORIES } from "@/lib/constants";
+import { PRODUCT_CATEGORIES, PRODUCT_CATEGORY_LABELS } from "@/lib/constants";
 import type { ProductCategory, ProductRow } from "@/lib/types";
 import { productSchema } from "@/lib/validations";
 
@@ -147,13 +147,17 @@ export function ProductForm({ initialValues }: ProductFormProps) {
                     <SelectContent>
                       {PRODUCT_CATEGORIES.map((category) => (
                         <SelectItem key={category} value={category}>
-                          {category}
+                          {PRODUCT_CATEGORY_LABELS[category]}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 )}
               />
+              <p className="text-xs leading-5 text-muted">
+                Choose Small Menu for discounted pieces you want grouped in the
+                storefront side menu.
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="price">Price (MAD)</Label>
@@ -198,7 +202,9 @@ export function ProductForm({ initialValues }: ProductFormProps) {
             name="images"
             render={({ field }) => (
               <ImageUploadField
+                description="Upload several product photos at once. Customers can browse every image in the product gallery."
                 label="Product Images"
+                max={12}
                 onChange={field.onChange}
                 value={field.value ?? []}
               />

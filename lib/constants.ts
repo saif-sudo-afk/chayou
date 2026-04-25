@@ -4,7 +4,17 @@ export const PRODUCT_CATEGORIES = [
   "necklaces",
   "earrings",
   "sets",
+  "small-menu",
 ] as const;
+
+export const PRODUCT_CATEGORY_LABELS = {
+  rings: "Rings",
+  bracelets: "Bracelets",
+  necklaces: "Necklaces",
+  earrings: "Earrings",
+  sets: "Sets",
+  "small-menu": "Small Menu",
+} satisfies Record<(typeof PRODUCT_CATEGORIES)[number], string>;
 
 export const ORDER_STATUSES = [
   "pending",

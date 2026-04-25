@@ -28,6 +28,7 @@ const config: Config = {
       },
       fontFamily: {
         display: ["Cormorant Garamond", "serif"],
+        script: ["Dancing Script", "cursive"],
         sans: ["Jost", "sans-serif"],
       },
       backgroundImage: {

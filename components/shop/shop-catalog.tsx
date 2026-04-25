@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ProductCard } from "@/components/shop/product-card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PRODUCT_CATEGORIES } from "@/lib/constants";
+import { PRODUCT_CATEGORIES, PRODUCT_CATEGORY_LABELS } from "@/lib/constants";
 import type { CatalogProduct, ProductCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -16,14 +16,6 @@ type ShopCatalogProps = {
   mobileColumns: 1 | 2;
   products: CatalogProduct[];
   totalPages: number;
-};
-
-const categoryLabels: Record<string, string> = {
-  rings: "Rings",
-  bracelets: "Bracelets",
-  necklaces: "Necklaces",
-  earrings: "Earrings",
-  sets: "Sets",
 };
 
 export function ShopCatalog({
@@ -98,7 +90,7 @@ export function ShopCatalog({
           <TabsTrigger value="all">All</TabsTrigger>
           {PRODUCT_CATEGORIES.map((item) => (
             <TabsTrigger key={item} value={item}>
-              {categoryLabels[item] ?? item}
+              {PRODUCT_CATEGORY_LABELS[item]}
             </TabsTrigger>
           ))}
         </TabsList>

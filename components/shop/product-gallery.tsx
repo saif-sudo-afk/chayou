@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,8 +18,22 @@ type ProductGalleryProps = {
 };
 
 export function ProductGallery({ images, alt }: ProductGalleryProps) {
-  const [selectedImage, setSelectedImage] = useState(images[0] ?? "");
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [open, setOpen] = useState(false);
+  const selectedImage = images[selectedIndex] ?? images[0] ?? "";
+  const hasMultipleImages = images.length > 1;
+
+  const showPrevious = () => {
+    setSelectedIndex((current) =>
+      current === 0 ? images.length - 1 : current - 1,
+    );
+  };
+
+  const showNext = () => {
+    setSelectedIndex((current) =>
+      current === images.length - 1 ? 0 : current + 1,
+    );
+  };
 
   if (!images[0]) {
     return <div className="h-full w-full rounded-lg bg-bg" />;
@@ -56,16 +71,39 @@ export function ProductGallery({ images, alt }: ProductGalleryProps) {
                 sizes="(max-width: 1024px) 100vw, 900px"
                 src={selectedImage}
               />
+              {hasMultipleImages ? (
+                <>
+                  <button
+                    aria-label="Show previous product image"
+                    className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-brand/80 text-bg shadow-lg transition hover:bg-gold hover:text-brand"
+                    onClick={showPrevious}
+                    type="button"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    aria-label="Show next product image"
+                    className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-brand/80 text-bg shadow-lg transition hover:bg-gold hover:text-brand"
+                    onClick={showNext}
+                    type="button"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                  <div className="absolute bottom-4 right-4 rounded-full bg-brand/80 px-3 py-1 text-xs text-bg">
+                    {selectedIndex + 1} / {images.length}
+                  </div>
+                </>
+              ) : null}
             </div>
             <div className="flex snap-x gap-3 overflow-x-auto pb-2">
-              {images.map((image) => (
+              {images.map((image, index) => (
                 <button
                   className={cn(
                     "relative h-24 w-20 shrink-0 snap-start overflow-hidden rounded-md border border-border transition",
                     selectedImage === image && "border-gold",
                   )}
                   key={image}
-                  onClick={() => setSelectedImage(image)}
+                  onClick={() => setSelectedIndex(index)}
                   type="button"
                 >
                   <Image

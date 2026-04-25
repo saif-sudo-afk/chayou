@@ -40,7 +40,7 @@ export function ValuesStrip() {
 
             return (
               <article
-                className="rounded-2xl border border-gold/45 bg-[rgba(243,236,220,0.08)] px-8 py-8 text-center shadow-[0_18px_45px_rgba(0,0,0,0.08)]"
+                className="rounded-2xl border border-gold/45 bg-[rgb(243, 236, 220)] px-8 py-8 text-center shadow-[0_18px_45px_rgba(0,0,0,0.08)]"
                 key={value.title}
               >
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-gold/55 text-gold">

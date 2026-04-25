@@ -37,6 +37,7 @@ function parsePage(value?: string | string[]) {
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const siteSettings = await getSiteSettings();
   const category = parseCategory(searchParams?.category);
+  const isSmallMenu = category === "small-menu";
   const requestedPage = parsePage(searchParams?.page);
   const catalog = await getPaginatedStorefrontProducts({
     category: category === "all" ? undefined : category,
@@ -48,14 +49,21 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     <section className="container-shell space-y-10 py-14">
       <SectionHeading
         description={
-          <>
-            Browse the latest <BrandText className="text-sm" short /> pieces, keep
-            the category filters you already use, and page through the catalog in
-            smaller mobile sets.
-          </>
+          isSmallMenu ? (
+            <>
+              Discounted <BrandText className="text-sm" short /> pieces selected
+              for quick gifts, everyday stacks, and limited-price finds.
+            </>
+          ) : (
+            <>
+              Browse the latest <BrandText className="text-sm" short /> pieces,
+              keep the category filters you already use, and page through the
+              catalog in smaller mobile sets.
+            </>
+          )
         }
         eyebrow="Shop"
-        title="The Collection"
+        title={isSmallMenu ? "Small Menu" : "The Collection"}
       />
       <ShopCatalog
         currentCategory={category}

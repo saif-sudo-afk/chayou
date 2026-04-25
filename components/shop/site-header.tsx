@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { AtSign, Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 import { BrandWordmark } from "@/components/shop/brand-wordmark";
@@ -11,11 +11,12 @@ import { cn } from "@/lib/utils";
 const menuItems = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop All" },
-  { href: "/shop?category=rings", label: "Rings" },
-  { href: "/shop?category=necklaces", label: "Necklaces" },
-  { href: "/shop?category=bracelets", label: "Bracelets" },
-  { href: "/shop?category=earrings", label: "Earrings" },
-  { href: "/shop?category=sets", label: "Sets" },
+  { href: "/shop?category=small-menu", label: "Small Menu", category: "small-menu" },
+  { href: "/shop?category=rings", label: "Rings", category: "rings" },
+  { href: "/shop?category=necklaces", label: "Necklaces", category: "necklaces" },
+  { href: "/shop?category=bracelets", label: "Bracelets", category: "bracelets" },
+  { href: "/shop?category=earrings", label: "Earrings", category: "earrings" },
+  { href: "/shop?category=sets", label: "Sets", category: "sets" },
   { href: "/packs", label: "Packs" },
   { href: "#contact", label: "Contact" },
 ] as const;
@@ -30,7 +31,9 @@ export function SiteHeader({
   bannerMessages,
 }: SiteHeaderProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [menuOpen, setMenuOpen] = useState(false);
+  const activeCategory = searchParams.get("category");
   const fallbackMarquee =
     "Livraison partout au Maroc · Acier inoxydable premium · Waterproof & anti-ternissement · DM ou WhatsApp pour commander";
   const configuredCopy =
@@ -123,15 +126,23 @@ export function SiteHeader({
           <nav className="flex flex-1 flex-col justify-between px-5 py-8">
             <div className="space-y-5">
               {menuItems.map((item) => {
-                const isActive =
-                  item.href === "/"
-                    ? pathname === item.href
-                    : pathname.startsWith(item.href.split("?")[0]);
+                const itemCategory = "category" in item ? item.category : null;
+                const isShopAll = item.href === "/shop";
+                const isActive = itemCategory
+                  ? pathname === "/shop" && activeCategory === itemCategory
+                  : isShopAll
+                    ? pathname === "/shop" && !activeCategory
+                    : item.href === "/"
+                      ? pathname === item.href
+                      : item.href.startsWith("#")
+                        ? false
+                        : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
                 return (
                   <Link
+                    aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "block text-[1.35rem] font-light leading-none tracking-[0.04em] text-brand transition hover:translate-x-1 hover:text-brand/70 sm:text-[1.45rem]",
+                      "block font-script text-[2.1rem] font-normal leading-none tracking-normal text-brand transition hover:translate-x-1 hover:text-brand/70 sm:text-[2.25rem]",
                       isActive && "text-brand/55",
                     )}
                     href={item.href}
