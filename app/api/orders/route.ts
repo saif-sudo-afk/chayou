@@ -68,8 +68,6 @@ export async function POST(request: Request) {
             city: parsed.data.customerCity,
             address: parsed.data.customerAddress,
             phone: customerPhone,
-            items,
-            deliveryFeeAmount,
             totalAmount,
           }),
         )

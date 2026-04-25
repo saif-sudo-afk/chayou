@@ -24,9 +24,6 @@ export function HeroSection({ hero }: HeroSectionProps) {
             <HeroButton href={hero.primaryButtonLink}>
               {hero.primaryButtonLabel}
             </HeroButton>
-            <HeroButton href={hero.secondaryButtonLink}>
-              {hero.secondaryButtonLabel}
-            </HeroButton>
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -45,7 +44,6 @@ type CheckoutFormProps = {
 };
 
 export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
-  const router = useRouter();
   const { items, clearCart } = useCartStore();
   const [submitting, setSubmitting] = useState(false);
   const subtotal = useMemo(
@@ -72,7 +70,6 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
       return;
     }
 
-    const whatsappWindow = window.open("", "_blank");
     setSubmitting(true);
 
     try {
@@ -98,28 +95,13 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
       const data = await response.json();
 
       if (!response.ok) {
-        whatsappWindow?.close();
         throw new Error(data.message ?? "Impossible d'envoyer votre commande.");
       }
 
-      if (data.whatsappUrl) {
-        if (whatsappWindow) {
-          whatsappWindow.location.href = data.whatsappUrl;
-        } else {
-          clearCart();
-          toast.success("Commande recue. WhatsApp va s'ouvrir pour confirmer.");
-          window.location.href = data.whatsappUrl;
-          return;
-        }
-      } else {
-        whatsappWindow?.close();
-      }
-
       clearCart();
-      toast.success("Commande recue. Nous vous confirmerons sur WhatsApp.");
-      router.push(`/confirmation?orderId=${data.orderId}`);
+      toast.success("Commande recue. WhatsApp va s'ouvrir pour confirmer.");
+      window.location.assign(data.whatsappUrl ?? `/confirmation?orderId=${data.orderId}`);
     } catch (error) {
-      whatsappWindow?.close();
       toast.error(error instanceof Error ? error.message : "Le paiement a echoue.");
     } finally {
       setSubmitting(false);

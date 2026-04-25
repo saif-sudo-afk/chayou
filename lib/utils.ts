@@ -145,27 +145,14 @@ export function buildAdminOrderMessage(params: {
   city: string;
   address: string;
   phone: string;
-  items: OrderItem[];
   totalAmount: number;
-  deliveryFeeAmount?: number;
 }) {
-  const itemsLine = params.items
-    .map((item) => `${item.qty}x ${item.name} (${item.price} MAD)`)
-    .join(", ");
-  const deliveryLine =
-    params.deliveryFeeAmount && params.deliveryFeeAmount > 0
-      ? `${params.deliveryFeeAmount} MAD`
-      : "Free delivery";
-
   return [
-    `🛍️ New order from ${params.name}`,
-    `📍 ${params.city} - ${params.address}`,
-    `📱 ${params.phone}`,
-    `Order: #${params.id}`,
-    `Items: ${itemsLine}`,
-    `Delivery: ${deliveryLine}`,
+    `New CHAYOU order #${params.id}`,
+    `Customer: ${params.name}`,
+    `Customer phone: ${params.phone}`,
+    `Address: ${params.address}, ${params.city}`,
     `Total: ${params.totalAmount} MAD`,
-    "—",
     "Please contact the customer to confirm this order.",
   ].join("\n");
 }
