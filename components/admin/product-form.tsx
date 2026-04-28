@@ -212,7 +212,7 @@ export function ProductForm({ initialValues }: ProductFormProps) {
                 <p className="text-xs leading-5 text-muted">Diamètre intérieur de la bague en millimètres.</p>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="ringWidth">Largeur de l'anneau (mm)</Label>
+                <Label htmlFor="ringWidth">Largeur de l&apos;anneau (mm)</Label>
                 <Input
                   id="ringWidth"
                   min={0}
@@ -221,7 +221,7 @@ export function ProductForm({ initialValues }: ProductFormProps) {
                   placeholder="ex : 4"
                   {...form.register("ringWidth")}
                 />
-                <p className="text-xs leading-5 text-muted">Largeur de l'anneau en millimètres.</p>
+                <p className="text-xs leading-5 text-muted">Largeur de l&apos;anneau en millimètres.</p>
               </div>
             </div>
           )}
