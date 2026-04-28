@@ -37,7 +37,7 @@ export function AdminSidebar() {
           return (
             <Link
               className={cn(
-                "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition",
+                "flex items-center gap-3 rounded-2xl px-4 py-3 text-xs transition",
                 isActive
                   ? "bg-gold text-brand"
                   : "text-border hover:bg-bg/10 hover:text-gold",

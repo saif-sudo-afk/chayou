@@ -17,6 +17,17 @@ const nullablePositiveInt = z.preprocess(
   z.number().int().positive().nullable(),
 );
 
+const nullablePositiveFloat = z.preprocess(
+  (value) => {
+    if (value === "" || value === undefined || value === null) {
+      return null;
+    }
+
+    return Number(value);
+  },
+  z.number().positive().nullable(),
+);
+
 export const productSchema = z.object({
   name: z.string().min(2).max(120),
   description: z.string().min(10).max(2000),
@@ -26,6 +37,8 @@ export const productSchema = z.object({
   stock: z.coerce.number().int().min(0),
   images: z.array(z.string().url()).min(1),
   isActive: z.boolean(),
+  ringDiameter: nullablePositiveFloat.optional(),
+  ringWidth: nullablePositiveFloat.optional(),
 });
 
 export const packSchema = z.object({

@@ -76,6 +76,16 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="line-clamp-2 text-xs leading-6 text-muted">
           {product.description}
         </p>
+        {product.category === "rings" && (product.ringDiameter || product.ringWidth) ? (
+          <p className="text-xs text-muted">
+            {[
+              product.ringDiameter ? `Ø ${product.ringDiameter} mm` : null,
+              product.ringWidth ? `Larg. ${product.ringWidth} mm` : null,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
+        ) : null}
         <div className="space-y-3">
           <div className="flex items-baseline gap-2">
             {product.effectivePrice < product.originalPrice ? (

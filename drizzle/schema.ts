@@ -5,6 +5,7 @@ import {
   jsonb,
   pgEnum,
   pgTable,
+  real,
   serial,
   text,
   timestamp,
@@ -31,6 +32,8 @@ export const products = pgTable("products", {
   category: productCategoryEnum("category").notNull(),
   stock: integer("stock").notNull().default(0),
   isActive: boolean("is_active").notNull().default(true),
+  ringDiameter: real("ring_diameter"),
+  ringWidth: real("ring_width"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

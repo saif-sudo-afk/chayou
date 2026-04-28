@@ -4,7 +4,7 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Save, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Controller, type Resolver, useForm } from "react-hook-form";
+import { Controller, type Resolver, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,8 @@ type ProductFormValues = {
   stock: number;
   images: string[];
   isActive: boolean;
+  ringDiameter: number | null | "";
+  ringWidth: number | null | "";
 };
 
 export function ProductForm({ initialValues }: ProductFormProps) {
@@ -48,8 +50,12 @@ export function ProductForm({ initialValues }: ProductFormProps) {
       stock: initialValues?.stock ?? 0,
       images: initialValues?.images ?? [],
       isActive: initialValues?.isActive ?? true,
+      ringDiameter: initialValues?.ringDiameter ?? "",
+      ringWidth: initialValues?.ringWidth ?? "",
     },
   });
+
+  const selectedCategory = useWatch({ control: form.control, name: "category" });
 
   const onSubmit = form.handleSubmit(async (values) => {
     const response = await fetch(
@@ -190,6 +196,35 @@ export function ProductForm({ initialValues }: ProductFormProps) {
               />
             </div>
           </div>
+
+          {selectedCategory === "rings" && (
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="ringDiameter">Diamètre intérieur (mm)</Label>
+                <Input
+                  id="ringDiameter"
+                  min={0}
+                  step={0.1}
+                  type="number"
+                  placeholder="ex : 17.5"
+                  {...form.register("ringDiameter")}
+                />
+                <p className="text-xs leading-5 text-muted">Diamètre intérieur de la bague en millimètres.</p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ringWidth">Largeur de l'anneau (mm)</Label>
+                <Input
+                  id="ringWidth"
+                  min={0}
+                  step={0.1}
+                  type="number"
+                  placeholder="ex : 4"
+                  {...form.register("ringWidth")}
+                />
+                <p className="text-xs leading-5 text-muted">Largeur de l'anneau en millimètres.</p>
+              </div>
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
