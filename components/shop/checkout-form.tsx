@@ -101,8 +101,12 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
       }
 
       clearCart();
-      toast.success("Commande recue. Nous vous confirmerons sur WhatsApp.");
-      router.push(`/confirmation?orderId=${data.orderId}`);
+      toast.success("Commande confirmée ! Ouverture WhatsApp pour notifier l'admin...");
+      if (!data.adminNotificationSent && data.whatsappUrl) {
+        window.location.href = data.whatsappUrl;
+      } else {
+        router.push(`/confirmation?orderId=${data.orderId}`);
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Le paiement a echoue.");
     } finally {

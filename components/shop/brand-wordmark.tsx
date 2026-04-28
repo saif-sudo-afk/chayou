@@ -12,7 +12,7 @@ const mainLineStyle = {
 } as const;
 
 const subLineStyle = {
-  fontFamily: '"Sukar", "Jost", sans-serif',
+   fontFamily: "Satoshi",
 } as const;
 
 export function BrandWordmark({

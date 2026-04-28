@@ -20,7 +20,7 @@ const categoryLabels: Record<string, string> = {
   necklaces: "Colliers",
   earrings: "Boucles",
   sets: "Ensembles",
-  "small-menu": "Small Menu",
+  "small-menu": "Petit Prix",
 };
 
 export function ProductCard({ product }: ProductCardProps) {

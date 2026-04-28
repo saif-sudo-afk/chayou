@@ -158,14 +158,18 @@ export function buildAdminOrderMessage(params: {
       : "Free delivery";
 
   return [
-    `New CHAYOU order #${params.id}`,
-    `Customer: ${params.name}`,
-    `Customer phone: ${params.phone}`,
-    `Address: ${params.address}, ${params.city}`,
-    `Items: ${itemsLine}`,
-    `Delivery: ${deliveryLine}`,
-    `Total: ${params.totalAmount} MAD`,
-    "Please contact the customer to confirm this order.",
+    `🛍️ Nouvelle commande CHAYOU #${params.id}`,
+    "",
+    `👤 Client : ${params.name}`,
+    `📱 WhatsApp : ${params.phone}`,
+    `📍 Ville : ${params.city}`,
+    `🏠 Adresse : ${params.address}`,
+    "",
+    `📦 Articles : ${itemsLine}`,
+    `🚚 Livraison : ${deliveryLine}`,
+    `💰 Total : ${params.totalAmount} MAD`,
+    "",
+    "Contactez le client pour confirmer la commande.",
   ].join("\n");
 }
 

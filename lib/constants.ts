@@ -13,7 +13,7 @@ export const PRODUCT_CATEGORY_LABELS = {
   necklaces: "Necklaces",
   earrings: "Earrings",
   sets: "Sets",
-  "small-menu": "Small Menu",
+  "small-menu": "Petit Prix",
 } satisfies Record<(typeof PRODUCT_CATEGORIES)[number], string>;
 
 export const ORDER_STATUSES = [

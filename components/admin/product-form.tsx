@@ -155,8 +155,7 @@ export function ProductForm({ initialValues }: ProductFormProps) {
                 )}
               />
               <p className="text-xs leading-5 text-muted">
-                Choose Small Menu for discounted pieces you want grouped in the
-                storefront side menu.
+                Choisissez Petit Prix pour les articles à prix réduit groupés dans le menu latéral.
               </p>
             </div>
             <div className="space-y-2">

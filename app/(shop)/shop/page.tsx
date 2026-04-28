@@ -63,7 +63,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           )
         }
         eyebrow="Shop"
-        title={isSmallMenu ? "Small Menu" : "The Collection"}
+        title={isSmallMenu ? "Petit Prix" : "The Collection"}
       />
       <ShopCatalog
         currentCategory={category}

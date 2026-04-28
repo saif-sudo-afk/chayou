@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const menuItems = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop All" },
-  { href: "/shop?category=small-menu", label: "Small Menu", category: "small-menu" },
+  { href: "/shop?category=small-menu", label: "Petit Prix", category: "small-menu" },
   { href: "/shop?category=rings", label: "Rings", category: "rings" },
   { href: "/shop?category=necklaces", label: "Necklaces", category: "necklaces" },
   { href: "/shop?category=bracelets", label: "Bracelets", category: "bracelets" },
@@ -142,7 +142,7 @@ export function SiteHeader({
                   <Link
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "block font-script text-[2.1rem] font-normal leading-none tracking-normal text-brand transition hover:translate-x-1 hover:text-brand/70 sm:text-[2.25rem]",
+                      "block font-display text-[2rem] font-normal leading-none tracking-[0.04em] text-brand transition hover:translate-x-1 hover:text-brand/70 sm:text-[2.15rem]",
                       isActive && "text-brand/55",
                     )}
                     href={item.href}
