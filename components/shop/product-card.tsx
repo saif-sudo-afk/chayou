@@ -76,10 +76,12 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="line-clamp-2 text-xs leading-6 text-muted">
           {product.description}
         </p>
-        {product.category === "rings" && (product.ringDiameter || product.ringWidth) ? (
+        {(product.category === "rings" || product.category === "bracelets" || product.category === "necklaces") && (product.ringDiameter || product.ringWidth) ? (
           <p className="text-xs text-muted">
             {[
-              product.ringDiameter ? `Ø ${product.ringDiameter} mm` : null,
+              product.ringDiameter
+                ? `${product.category === "necklaces" ? "Long." : "Ø"} ${product.ringDiameter} mm`
+                : null,
               product.ringWidth ? `Larg. ${product.ringWidth} mm` : null,
             ]
               .filter(Boolean)
