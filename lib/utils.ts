@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { DiscountRow, OrderItem, OrderStatus } from "@/lib/types";
-import { DELIVERY_FEE_MAD, ORDER_STATUS_LABELS } from "@/lib/constants";
+import { DELIVERY_FEE_MAD, FREE_DELIVERY_THRESHOLD_MAD, ORDER_STATUS_LABELS } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -128,15 +128,17 @@ export function sumOrderItems(items: OrderItem[]) {
   return items.reduce((total, item) => total + item.price * item.qty, 0);
 }
 
-export function getDeliveryFeeAmount(freeDeliveryEnabled: boolean) {
-  return freeDeliveryEnabled ? 0 : DELIVERY_FEE_MAD;
+export function getDeliveryFeeAmount(freeDeliveryEnabled: boolean, subtotal = 0) {
+  if (freeDeliveryEnabled) return 0;
+  if (subtotal >= FREE_DELIVERY_THRESHOLD_MAD) return 0;
+  return DELIVERY_FEE_MAD;
 }
 
 export function calculateOrderTotal(
   subtotalAmount: number,
   freeDeliveryEnabled: boolean,
 ) {
-  return subtotalAmount + getDeliveryFeeAmount(freeDeliveryEnabled);
+  return subtotalAmount + getDeliveryFeeAmount(freeDeliveryEnabled, subtotalAmount);
 }
 
 export function buildAdminOrderMessage(params: {

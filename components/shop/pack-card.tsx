@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ShoppingBag } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,10 +18,19 @@ export function PackCard({ pack }: PackCardProps) {
   const addItem = useCartStore((state) => state.addItem);
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const totalValue = pack.includedProducts.reduce(
     (total, product) => total + product.price,
     0,
   );
+
+  const images = pack.images && pack.images.length > 0
+    ? pack.images
+    : pack.image
+      ? [pack.image]
+      : [];
+  const hasMultiple = images.length > 1;
+  const currentImage = images[activeIndex] ?? null;
 
   useEffect(() => {
     const node = ref.current;
@@ -54,13 +63,59 @@ export function PackCard({ pack }: PackCardProps) {
       ref={ref}
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-bg">
-        <Image
-          alt={pack.name}
-          className="object-cover transition duration-500 hover:scale-[1.02]"
-          fill
-          sizes="(max-width: 768px) 100vw, 600px"
-          src={pack.image}
-        />
+        {currentImage ? (
+          <Image
+            alt={`${pack.name} — image ${activeIndex + 1}`}
+            className="object-cover transition duration-500"
+            fill
+            sizes="(max-width: 768px) 100vw, 600px"
+            src={currentImage}
+          />
+        ) : null}
+
+        {hasMultiple ? (
+          <>
+            <button
+              aria-label="Image précédente"
+              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-bg/80 p-1.5 text-brand shadow-sm transition hover:bg-bg"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveIndex((i) => (i - 1 + images.length) % images.length);
+              }}
+              type="button"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              aria-label="Image suivante"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-bg/80 p-1.5 text-brand shadow-sm transition hover:bg-bg"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveIndex((i) => (i + 1) % images.length);
+              }}
+              type="button"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5">
+              {images.map((_, i) => (
+                <button
+                  aria-label={`Voir image ${i + 1}`}
+                  className={cn(
+                    "h-1.5 rounded-full transition-all duration-300",
+                    i === activeIndex ? "w-4 bg-bg" : "w-1.5 bg-bg/60 hover:bg-bg/80",
+                  )}
+                  key={i}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveIndex(i);
+                  }}
+                  type="button"
+                />
+              ))}
+            </div>
+          </>
+        ) : null}
       </div>
       <CardContent className="space-y-5 p-5">
         <div className="flex items-center justify-between gap-3">
@@ -112,7 +167,7 @@ export function PackCard({ pack }: PackCardProps) {
                 id: pack.id,
                 type: "pack",
                 name: pack.name,
-                image: pack.image,
+                image: images[0] ?? null,
                 price: pack.effectivePrice,
                 originalPrice: pack.originalPrice,
               })

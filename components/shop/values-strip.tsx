@@ -19,7 +19,7 @@ const values = [
   {
     icon: Sparkles,
     title: "LIVRAISON RAPIDE",
-    description: "Expédition rapide partout au Maroc sous 24 à 48 h.",
+    description: "Expédition rapide partout au Maroc en` 24 à 48 h.",
   },
 ] as const;
 
@@ -28,8 +28,8 @@ export function ValuesStrip() {
     <section className="bg-brand py-18 sm:py-20">
       <div className="container-shell space-y-12">
         <div className="space-y-4 text-center">
-          <h2 className="font-display text-[2.6rem] font-light italic tracking-[0.02em] text-white sm:text-[3rem]">
-            Pourquoi nous choisir
+          <h2 className="font-display text-[2.3rem] font-light italic tracking-[0.02em] text-white sm:text-[3rem]">
+            Pourquoi nous choisir ?
           </h2>
           <div className="mx-auto h-px w-14 bg-gold" />
         </div>

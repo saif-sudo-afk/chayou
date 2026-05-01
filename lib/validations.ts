@@ -47,7 +47,8 @@ export const packSchema = z.object({
   price: z.coerce.number().int().positive(),
   discountedPrice: nullablePositiveInt,
   productIds: z.array(z.number().int().positive()).min(1),
-  image: z.string().url(),
+  image: z.string(),
+  images: z.array(z.string().url()).min(1, "Au moins une image est requise."),
   isActive: z.boolean(),
 });
 

@@ -25,6 +25,7 @@ export const ORDER_STATUSES = [
 ] as const;
 
 export const DELIVERY_FEE_MAD = 25;
+export const FREE_DELIVERY_THRESHOLD_MAD = 250;
 
 export const MOROCCAN_CITIES = [
   "Casablanca",

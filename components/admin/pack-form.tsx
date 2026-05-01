@@ -39,6 +39,7 @@ type PackFormValues = {
   discountedPrice: number | null | "";
   productIds: number[];
   image: string;
+  images: string[];
   isActive: boolean;
 };
 
@@ -55,6 +56,11 @@ export function PackForm({ initialValues, productOptions }: PackFormProps) {
       discountedPrice: initialValues?.discountedPrice ?? "",
       productIds: initialValues?.productIds ?? [],
       image: initialValues?.image ?? "",
+      images: initialValues?.images && initialValues.images.length > 0
+        ? initialValues.images
+        : initialValues?.image
+          ? [initialValues.image]
+          : [],
       isActive: initialValues?.isActive ?? true,
     },
   });
@@ -178,16 +184,22 @@ export function PackForm({ initialValues, productOptions }: PackFormProps) {
 
           <Controller
             control={form.control}
-            name="image"
+            name="images"
             render={({ field }) => (
               <ImageUploadField
-                label="Pack Image"
-                onChange={(urls) => field.onChange(urls[0] ?? "")}
-                single
-                value={field.value ? [field.value] : []}
+                label="Pack Images"
+                max={6}
+                onChange={(urls) => {
+                  field.onChange(urls);
+                  form.setValue("image", urls[0] ?? "");
+                }}
+                value={field.value}
               />
             )}
           />
+          {form.formState.errors.images ? (
+            <p className="text-sm text-danger">{form.formState.errors.images.message}</p>
+          ) : null}
 
           <div className="space-y-4">
             <div>

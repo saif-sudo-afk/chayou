@@ -49,7 +49,11 @@ export const packs = pgTable("packs", {
     .array()
     .notNull()
     .default(sql`ARRAY[]::integer[]`),
-  image: text("image").notNull(),
+  image: text("image").notNull().default(""),
+  images: text("images")
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::text[]`),
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()

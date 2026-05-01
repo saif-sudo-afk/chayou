@@ -98,7 +98,7 @@ export async function buildCanonicalOrder(
         name: pack.name,
         qty: item.qty,
         price: pricing.effectivePrice,
-        image: pack.image,
+        image: pack.images[0] ?? pack.image ?? null,
       };
     }
 
@@ -112,7 +112,7 @@ export async function buildCanonicalOrder(
   return {
     items: canonicalItems,
     subtotalAmount,
-    deliveryFeeAmount: getDeliveryFeeAmount(freeDeliveryEnabled),
+    deliveryFeeAmount: getDeliveryFeeAmount(freeDeliveryEnabled, subtotalAmount),
     totalAmount: calculateOrderTotal(subtotalAmount, freeDeliveryEnabled),
   };
 }

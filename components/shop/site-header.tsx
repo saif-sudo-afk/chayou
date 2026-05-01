@@ -124,7 +124,7 @@ export function SiteHeader({
           </div>
 
           <nav className="flex flex-1 flex-col justify-between px-5 py-8">
-            <div className="space-y-5">
+            <div className="space-y-3">
               {menuItems.map((item) => {
                 const itemCategory = "category" in item ? item.category : null;
                 const isShopAll = item.href === "/shop";
@@ -142,7 +142,7 @@ export function SiteHeader({
                   <Link
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "block font-display text-[2rem] font-normal leading-none tracking-[0.04em] text-brand transition hover:translate-x-1 hover:text-brand/70 sm:text-[2.15rem]",
+                      "block font-display text-[1.4rem] font-normal leading-none tracking-[0.04em] text-brand transition hover:translate-x-1 hover:text-brand/70 sm:text-[1.5rem]",
                       isActive && "text-brand/55",
                     )}
                     href={item.href}

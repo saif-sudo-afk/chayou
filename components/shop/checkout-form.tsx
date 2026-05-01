@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MessageCircle } from "lucide-react";
+import { CheckCircle2, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { useMemo, useState } from "react";
@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCartStore } from "@/hooks/use-cart-store";
-import { MOROCCAN_CITIES } from "@/lib/constants";
+import { FREE_DELIVERY_THRESHOLD_MAD, MOROCCAN_CITIES } from "@/lib/constants";
 import {
   calculateOrderTotal,
   formatMAD,
@@ -52,8 +52,13 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
     () => items.reduce((total, item) => total + item.price * item.qty, 0),
     [items],
   );
-  const deliveryFee = getDeliveryFeeAmount(freeDeliveryEnabled);
+  const deliveryFee = getDeliveryFeeAmount(freeDeliveryEnabled, subtotal);
   const total = calculateOrderTotal(subtotal, freeDeliveryEnabled);
+  const deliveryUnlocked = !freeDeliveryEnabled && subtotal >= FREE_DELIVERY_THRESHOLD_MAD;
+  const remainingForFreeDelivery = !freeDeliveryEnabled && subtotal < FREE_DELIVERY_THRESHOLD_MAD
+    ? FREE_DELIVERY_THRESHOLD_MAD - subtotal
+    : 0;
+  const deliveryProgress = Math.min(100, Math.round((subtotal / FREE_DELIVERY_THRESHOLD_MAD) * 100));
 
   const form = useForm<CheckoutValues>({
     resolver: zodResolver(checkoutSchema),
@@ -238,6 +243,31 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
               </span>
             </div>
           ))}
+
+          {!freeDeliveryEnabled && (
+            <div className="rounded-[1.2rem] border border-border bg-bg/60 px-4 py-3">
+              {deliveryUnlocked ? (
+                <p className="flex items-center gap-2 text-xs font-medium text-emerald-600">
+                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+                  Livraison gratuite débloquée !
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  <p className="text-xs text-muted">
+                    Plus que{" "}
+                    <span className="font-medium text-text">{formatMAD(remainingForFreeDelivery)}</span>{" "}
+                    pour la livraison gratuite
+                  </p>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-border">
+                    <div
+                      className="h-full rounded-full bg-gold transition-all duration-500"
+                      style={{ width: `${deliveryProgress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="rounded-[1.5rem] bg-bg/55 p-4">
             <div className="flex items-center justify-between text-sm text-muted">

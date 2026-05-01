@@ -8,11 +8,11 @@ type BrandWordmarkProps = {
 };
 
 const mainLineStyle = {
-  fontFamily: '"TAN - PEARL", "Cormorant Garamond", serif',
+  fontFamily: '"TAN - PEARL", var(--font-cormorant), "Cormorant Garamond", serif',
 } as const;
 
 const subLineStyle = {
-   fontFamily: "Satoshi",
+  fontFamily: 'var(--font-great-vibes), cursive',
 } as const;
 
 export function BrandWordmark({
@@ -34,8 +34,8 @@ export function BrandWordmark({
     >
       <span
         className={cn(
-          "tracking-[0.045em]",
-          compact ? "text-[2.15rem]" : "text-[2.9rem] sm:text-[3.2rem]",
+          "tracking-[0.05em]",
+          compact ? "text-[2.2rem]" : "text-[3.1rem] sm:text-[3.5rem]",
         )}
         style={mainLineStyle}
       >
@@ -43,9 +43,9 @@ export function BrandWordmark({
       </span>
       <span
         className={cn(
-          "mt-2 uppercase tracking-[0.48em]",
-          compact ? "text-[0.52rem]" : "text-[0.62rem] sm:text-[0.68rem]",
-          isLight ? "text-bg/85" : "text-brand/80",
+          "tracking-[0.03em]",
+          compact ? "text-[1.05rem]" : "text-[1.4rem] sm:text-[1.6rem]",
+          isLight ? "text-bg/80" : "text-brand/75",
         )}
         style={subLineStyle}
       >
