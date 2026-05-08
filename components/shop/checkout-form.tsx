@@ -4,7 +4,7 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -12,16 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCartStore } from "@/hooks/use-cart-store";
-import { FREE_DELIVERY_THRESHOLD_MAD, MOROCCAN_CITIES } from "@/lib/constants";
+import { FREE_DELIVERY_THRESHOLD_MAD } from "@/lib/constants";
 import {
   calculateOrderTotal,
   formatMAD,
@@ -33,7 +26,7 @@ const checkoutSchema = z.object({
   customerPhone: z
     .string()
     .regex(/^\+212[67]\d{8}$/, "Utilisez un numero WhatsApp marocain valide."),
-  customerCity: z.string().min(1, "Selectionnez une ville."),
+  customerCity: z.string().min(2, "Entrez le nom de votre ville."),
   customerAddress: z.string().min(8, "L'adresse complete est requise."),
   notes: z.string().optional(),
 });
@@ -171,24 +164,11 @@ export function CheckoutForm({ freeDeliveryEnabled }: CheckoutFormProps) {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label>Ville</Label>
-              <Controller
-                control={form.control}
-                name="customerCity"
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choisir votre ville" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {MOROCCAN_CITIES.map((city) => (
-                        <SelectItem key={city} value={city}>
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
+              <Label htmlFor="customerCity">Ville</Label>
+              <Input
+                id="customerCity"
+                placeholder="Entrez votre ville (ex: Casablanca, Agadir...)"
+                {...form.register("customerCity")}
               />
               {form.formState.errors.customerCity ? (
                 <p className="text-sm text-danger">

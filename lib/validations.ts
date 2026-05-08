@@ -1,6 +1,5 @@
 import { z } from "zod";
 import {
-  MOROCCAN_CITIES,
   ORDER_STATUSES,
   PRODUCT_CATEGORIES,
 } from "@/lib/constants";
@@ -98,15 +97,7 @@ export const orderSchema = z.object({
   customerPhone: z
     .string()
     .refine(isMoroccanPhone, "Use a valid Moroccan WhatsApp number in +212 format."),
-  customerCity: z
-    .string()
-    .refine(
-      (value) =>
-        MOROCCAN_CITIES.includes(
-          value as (typeof MOROCCAN_CITIES)[number],
-        ),
-      "Select a Moroccan city.",
-    ),
+  customerCity: z.string().min(2, "Entrez le nom de votre ville.").max(120),
   customerAddress: z.string().min(8).max(300),
   notes: z.string().max(500).nullable().optional(),
   items: z.array(orderItemSchema).min(1),
